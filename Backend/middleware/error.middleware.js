@@ -36,14 +36,14 @@ const errorMiddleware = (err, req, res, next) => {
             success: false,
             message: error.message || 'Internal Server Error',
         });
-        next();
+        // next();
     } catch (error) {
         console.error("Error in errorMiddleware:", error.red.bold);
         res.status(500).json({
             success: false,
             message: 'Internal Server Error',
         });
-        next();
+        // next();
     }
 };
 

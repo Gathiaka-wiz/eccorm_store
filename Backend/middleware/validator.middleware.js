@@ -1,9 +1,9 @@
 import { body } from 'express-validator';
-import { param } from 'express-validator';
+// import { param } from 'express-validator';
 
 // Auth validation
 export const signupValidation = [
-    body('name').trim().notEmpty().withMessage('Name is required').escape(),
+    body('name').trim().notEmpty().withMessage('Name is required'),
     body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
     body('password')
         .isLength({ min: 6 })
@@ -11,7 +11,13 @@ export const signupValidation = [
     body('role').optional().isIn(['user', 'admin']).withMessage('Invalid role').escape(),
 ];
 
-export const loginValidation = [
+
+
+export const verificationCodeValidation = [
+    body('code').notEmpty().isString().withMessage('Verification code is required').isLength({ min: 6, max: 6 }).withMessage('Verification code should be 6 characters long').escape()
+]
+
+export const signinValidation = [
     body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
     body('password').notEmpty().withMessage('Password is required').escape(),
 ];
