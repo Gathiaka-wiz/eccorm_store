@@ -15,5 +15,8 @@ export const {
     EMAIL_HOST,
     EMAIL_USER,
     EMAIL_PASS,
-    HOST
+    HOST,
+    CLOUDINARY_CLOUD_NAME,
+    CLOUDINARY_API_KEY,
+    CLOUDINARY_API_SECRET
 } = process.env

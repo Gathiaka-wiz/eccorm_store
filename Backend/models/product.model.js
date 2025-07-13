@@ -5,7 +5,8 @@ const productSchema = new mongoose.Schema({
         type:String,
         required:[true,'Product name is required'],
         minLength:6,
-        maxLength:70
+        maxLength:70,
+        unique:true
     },
     price:{
         type:Number,
@@ -19,17 +20,23 @@ const productSchema = new mongoose.Schema({
     },
     sold_stock:{
         type:Number,
-        minLength:1
+        minLength:1,
+        default:0
     },
     description:{
         type:String,
         minLength:20
     },
-    image:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'image',
-        required:[true,'Product image is required']
-    }]
+    image:{
+        url:{
+            type:String,
+            required:[true,'Image url is required']
+        },
+        public_id:{
+            type:String,
+            required:[true,'Image public id is required']
+        }
+    }
 },{ timestamps:true }); 
 
-export default mongoose.Schema('Product',productSchema);
+export default mongoose.model('Product',productSchema);
