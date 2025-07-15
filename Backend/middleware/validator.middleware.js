@@ -59,5 +59,17 @@ export const productEditValidation = [
 ];  
 
 export const productDeletionValidation = [
-    param('id').isMongoId().withMessage('Invalid product id').escape()
+    param('id').isMongoId().withMessage('Invalid product id').escape(),
 ];
+
+
+// User validation
+export const cartValidation = [
+    param('product_id').isMongoId().withMessage('Invalid product id'),
+    body('quantity').isNumeric().withMessage('Quantity must be a number').escape(),
+];
+
+export const productDeleteValidation = [
+    param('product_id').isMongoId().withMessage('Invalid product id').escape(),
+]
+

@@ -34,14 +34,6 @@ const userSchema = new mongoose.Schema({
         type:Boolean, 
         default:false 
     },
-    cart:[{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref:'product'
-    }],
-    orders:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'order'
-    }],
     verificationToken:String,
     verificationTokenExpiresAt:Date,
     resetPasswordToken: String,

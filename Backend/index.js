@@ -15,6 +15,7 @@ import { routeLogger } from "./middleware/logger.middleware.js"
 // Routes import 
 import { AuthRoutes } from "./routes/auth.route.js";
 import { AdminRoutes } from "./routes/admin.route.js";
+import { UserRoutes }from "./routes/user.route.js"; // Importing user routes
 
 
 
@@ -26,11 +27,14 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(arcjetMiddleware);
+app.use(express.urlencoded({ extended: true }));
+
 
 // Auth Routes
 app.use('/api/v1/auth', AuthRoutes);
 
 // User Routes
+app.use('/api/v2', UserRoutes);
 
 // Admin Routes
 app.use('/api/v3/admin', AdminRoutes);

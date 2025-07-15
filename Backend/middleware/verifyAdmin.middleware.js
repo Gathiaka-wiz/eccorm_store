@@ -12,11 +12,11 @@ const verifyAdmin = async (req, res, next) => {
             throw error;
         }
 
-        next();
+        
     } catch (err) {
         const error = new Error(`Error in verifyAdmin middleware: ${err}`);
         error.statusCode = 500;
-        throw error;
+        next( error );
     }
 }
 
