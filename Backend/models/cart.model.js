@@ -16,7 +16,7 @@ const cartSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['open', 'ordered', 'paid', 'cancelled', 'completed'],
+        enum: ['open', 'ordered', 'processing', 'paid', 'cancelled', 'completed'],
         default: 'open',
         required: [true, 'Cart status is required']
     }

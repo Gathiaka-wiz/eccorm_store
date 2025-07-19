@@ -15,7 +15,8 @@ import { routeLogger } from "./middleware/logger.middleware.js"
 // Routes import 
 import { AuthRoutes } from "./routes/auth.route.js";
 import { AdminRoutes } from "./routes/admin.route.js";
-import { UserRoutes }from "./routes/user.route.js"; // Importing user routes
+import { UserRoutes }from "./routes/user.route.js";
+import { CheckoutRoute } from "./routes/checkout.route.js";
 
 
 
@@ -35,6 +36,8 @@ app.use('/api/v1/auth', AuthRoutes);
 
 // User Routes
 app.use('/api/v2', UserRoutes);
+
+app.use('/api', CheckoutRoute)
 
 // Admin Routes
 app.use('/api/v3/admin', AdminRoutes);

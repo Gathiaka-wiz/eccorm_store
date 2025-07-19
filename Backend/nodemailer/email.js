@@ -1,5 +1,5 @@
 import transporter from "../config/nodemailer.config.js"
-import { EMAIL_USER,HOST } from "../config/env.config.js";
+import { EMAIL_USER,BASE_URL } from "../config/env.config.js";
 
 import { verificationTemplate, welcomeTemplate, resetPasswordTemplate, passwordResetSuccessTemplate  } from "./emailTemplate.js"
 
@@ -36,7 +36,7 @@ export const sendWelcomeEmail = async  ( email, name) => {
 
 export const sendResetPasswordEmail = async  ( email, token ) => {
     try {
-        const link = `${HOST}/reset-password/${token}`;
+        const link = `${BASE_URL}/reset-password/${token}`;
         await transporter.sendMail({
             from:EMAIL_USER,
             to: email,
@@ -64,3 +64,5 @@ export const SendPasswordResetSuccessEmail = async  ( email, name ) => {
         throw error;
     }
 }
+
+export const notifyAdminEmail = async (cart, user) => {}

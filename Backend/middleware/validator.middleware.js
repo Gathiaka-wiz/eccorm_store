@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 import { param } from 'express-validator';
 
 // Auth validation
@@ -73,3 +73,21 @@ export const productDeleteValidation = [
     param('product_id').isMongoId().withMessage('Invalid product id').escape(),
 ]
 
+// checkout validation
+export const checkoutValidation = [
+    param('cart_id').isMongoId().withMessage('Invalid cart id'),
+    body('phone').isMobilePhone().withMessage('Valid phone number is required'),
+    body('method').isIn(['stripe', 'mpesa']).withMessage('Invalid payment method').escape(),
+];
+
+// product_id, quantity, phone, method 
+export const itemCheckoutValidation = [
+    param('product_id').isMongoId().withMessage('Invalid product id'),
+    body('phone').isMobilePhone().withMessage('Valid phone number is required'),
+    body('method').isIn(['stripe', 'mpesa']).withMessage('Invalid payment method').escape(),
+]
+
+export const mpesaCallbackValidation = [
+    query('cart_id').optional().isMongoId().withMessage('Transaction ID is required').escape(),
+    query('product_id').optional().isMongoId().withMessage('Product ID is required').escape(),
+];
