@@ -136,12 +136,9 @@ export const createCheckoutSession = async (req, res, next) => {
             throw error;
         }
 
-    } catch (err) {
+    } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.error("Checkout session creation failed:", err);
-        const  error = new Error(`Failed to create checkout session: ${err} `);
-        error.statusCode = 500; 
         next(error);
     }
 }
@@ -259,12 +256,9 @@ export const itemCheckoutSession = async (req, res, next) => {
             throw error;
         }
 
-    } catch (err) {
+    } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.error("Item checkout session creation failed:", err);
-        const error = new Error(`Failed to create item checkout session: ${err}`);
-        error.statusCode = 500;
         next(error);
     }
 }
@@ -361,12 +355,9 @@ export const mpesaCallback = async (req, res, next) => {
             throw error;
         }
 
-    } catch (err) {
+    } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        console.error("Mpesa callback error:", err);
-        const error = new Error(`Mpesa callback failed: ${err}`);
-        error.statusCode = 500;
         next(error);
         
     }
@@ -392,9 +383,8 @@ export const stripeWebhookHandler = async (req, res, next) => {
             sig,
             STRIPE_WEBHOOK_SECRET
         );
-    } catch (err) {
-        console.error('Webhook error:', err.message);
-        return res.status(400).send(`Webhook Error: ${err.message}`);
+    } catch (error) {
+        next(error)
     }
 
     switch (event.type) {

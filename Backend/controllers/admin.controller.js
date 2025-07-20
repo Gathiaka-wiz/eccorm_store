@@ -16,10 +16,8 @@ export const getAllUsers = async ( req, res, next ) => {
             data:users 
         });
 
-    } catch (err) {
-        const error = new Error(`Error in getting all users : ${err}`);
-        error.statusCode = 500;
-        throw error;        
+    } catch (error) {
+        next(error)     
     }
 }
 
@@ -61,11 +59,9 @@ export const createProduct = async ( req, res, next ) => {
             product
         });
 
-    }catch (err) {
+    }catch (error) {
         await session.abortTransaction();
         session.endSession();
-        const error = new Error(`Error in creating product : ${err}`);
-        error.statusCode = 500;
         next(error);        
     }
 }
@@ -119,11 +115,9 @@ export const editProduct = async ( req, res, next ) => {
 
 
 
-    }catch (err) {
+    }catch (error) {
         await session.abortTransaction();
         session.endSession();
-        const error = new Error(`Error in editing product : ${err}`);
-        error.statusCode = 500;
         next(error);        
     }
 }
@@ -156,11 +150,34 @@ export const deleteProduct = async ( req, res, next ) => {
             message:"Product deleted successfully"
         });
 
-    }catch (err) {
+    }catch (error) {
         await session.abortTransaction();
         session.endSession();
-        const error = new Error(`Error in deleting product : ${err}`);
-        error.statusCode = 500;
         next (error);        
     }
+}
+
+
+export const checkAdmin = async ( req, res, next) => {
+
+    try {
+        const user = user.findById(req.userId).select("-password");
+
+        if ( user.role !== 'admin') {
+            const error = new Error('Unauthorized access ');
+            error.statusCode= 405;
+            throw error;
+        } 
+        
+        res.status(200).json({ 
+            success:true,
+            message:'Verified admin',
+            user 
+        })
+    } catch (error) {
+        next(error);
+        console.error("Error in checkAdmin",error);
+    }
+
+
 }

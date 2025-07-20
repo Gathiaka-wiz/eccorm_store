@@ -13,7 +13,7 @@ export const signupValidation = [
 
 
 export const verificationCodeValidation = [
-    body('code').notEmpty().isString().withMessage('Verification code is required').isLength({ min: 6, max: 6 }).withMessage('Verification code should be 6 characters long').escape()
+    body('verificationToken').notEmpty().isString().withMessage('Verification code is required').isLength({ min: 6, max: 6 }).withMessage('verificationToken should be 6 characters long').escape()
 ]
 
 export const signinValidation = [

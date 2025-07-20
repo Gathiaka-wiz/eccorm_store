@@ -7,12 +7,14 @@ import upload from "../middleware/upload.js"
 import { productCreationValidation, productEditValidation, productDeletionValidation } from "../middleware/validator.middleware.js";
 
 // controller import
-import { getAllUsers, createProduct, editProduct, deleteProduct } from "../controllers/admin.controller.js";
+import { getAllUsers, createProduct, editProduct, deleteProduct, checkAdmin } from "../controllers/admin.controller.js";
 
 const router = Router();
 
 router.use(verifyToken);
 router.use(verifyAdmin);
+
+router.get('/check-admin', checkAdmin)
 
 router.get('/users', getAllUsers);
 

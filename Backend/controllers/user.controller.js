@@ -22,9 +22,7 @@ export const getAllProducts = async (req, res, next) => {
             data:products 
         });
 
-    } catch (err) {
-        const error = new Error(`Failed to fetch products : ${err} `);
-        error.statusCode = 500; 
+    } catch (error) {
         next(error);
     }
 }
@@ -48,9 +46,7 @@ export const getUserProfile = async (req, res, next) => {
             user
         });
 
-    } catch (err) {
-        const error = new Error(`Failed to fetch user : ${err} `);
-        error.statusCode = 500; 
+    } catch (error) {
         next(error);
     }
 }
@@ -71,9 +67,7 @@ export const getCart = async (req, res, next) => {
         });
 
 
-    } catch (err) {
-        const error = new Error(`Failed to fetch cart : ${err} `);
-        error.statusCode = 500; 
+    } catch (error) {
         next(error);
     }
 }
@@ -156,11 +150,9 @@ export const addAndUpdateCart = async (req, res, next) => {
             data: populatedCart
         });
 
-    } catch (err) {
+    } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        const error = new Error(`Failed to add/edit cart: ${err} `);
-        error.statusCode = 500; 
         next(error);
     }
 }
@@ -210,11 +202,9 @@ export const removeCartItem = async (req, res, next) => {
         });
         
         
-    } catch (err) {
+    } catch (error) {
         await session.abortTransaction();
         session.endSession();
-        const error = new Error(`Failed to delete cart: ${err} `);
-        error.statusCode = 500; 
         next(error);
     }
 }

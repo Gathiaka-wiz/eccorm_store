@@ -59,6 +59,10 @@ export const  signup = async ( req, res, next ) => {
         res.status(201).json({ 
             success: true, 
             message: 'User created successfully, check you email for verification code',
+            user:{
+                ...user[0]._doc,
+                password: undefined
+            }
         });
 
     } catch (error) {
