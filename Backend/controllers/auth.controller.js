@@ -181,9 +181,34 @@ export const  signout = async ( req, res, next ) => {
         res.clearCookie('token');
         res.status(200).json({ 
             success: true, 
-            message: 'User logged out successfully' 
+            message: 'User signed out successfully' 
         });
     } catch (error) {
         next(error);
     }
 };
+
+
+export const checkAuth = async ( req, res, next) => {
+
+    try {
+        const user = user.findById(req.userId).select("-password");
+
+        if (!user) {
+            const error = new Error('User not found');
+            error.statusCode= 400;
+            throw error;
+        } 
+        
+        res.status(200).json({ 
+            success:true,
+            message:'User Found !',
+            user 
+        })
+    } catch (error) {
+        next(error);
+        console.log("Error in checkAuth",error);
+    }
+
+
+}

@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { signup, signin, signout, verifyAccount } from '../controllers/auth.controller.js';
+import { signup, signin, signout, verifyAccount, checkAuth } from '../controllers/auth.controller.js';
 
 // Validation Middleware
 import { signupValidation, verificationCodeValidation, signinValidation } from "../middleware/validator.middleware.js";
@@ -10,6 +10,7 @@ import verifyToken from "../middleware/verifyToken.middleware.js";
 const router = Router();
 
 
+router.get('/check-auth', verifyToken, checkAuth);
 
 router.post('/signup', signupValidation, signup);
 
