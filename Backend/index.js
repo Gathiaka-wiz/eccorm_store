@@ -37,7 +37,7 @@ app.use('/api/v1/auth', AuthRoutes);
 // User Routes
 app.use('/api/v2', UserRoutes);
 
-app.use('/api', CheckoutRoute)
+app.use('/api/v4/checkout', CheckoutRoute)
 
 // Admin Routes
 app.use('/api/v3/admin', AdminRoutes);

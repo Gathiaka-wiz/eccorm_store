@@ -162,7 +162,7 @@ export const removeCartItem = async (req, res, next) => {
     session.startTransaction();
     try {
         const user_id = req.userId;
-        const { productId } = req.params;
+        const productId  = req.params.product_id;
 
         const cart = await Cart.findOne({ user_id, status: 'open' });
 

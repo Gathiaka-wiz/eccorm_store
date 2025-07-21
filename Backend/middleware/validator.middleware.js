@@ -42,12 +42,11 @@ export const productCreationValidation = [
 ];
 
 export const productEditValidation = [
-    param('id').isMongoId().withMessage('Invalid product id'),
+    param('product_id').isMongoId().withMessage('Invalid product id'),
     body('product_name').trim().optional().isString().withMessage('Name is required'),
     body('price').trim().optional().isNumeric().withMessage('Price is required'),
     body('available_stock').trim().optional().isNumeric().withMessage('Available stock is required'),
     body('description').trim().optional().isString().withMessage('Description is required'),
-    body('sold_stock').trim().optional().isNumeric().withMessage('Sold stock is required'),
     body('image').optional()
         .custom(value => {
             if (!value) return true;
@@ -59,7 +58,7 @@ export const productEditValidation = [
 ];  
 
 export const productDeletionValidation = [
-    param('id').isMongoId().withMessage('Invalid product id').escape(),
+    param('product_id').isMongoId().withMessage('Invalid product id').escape(),
 ];
 
 
@@ -87,7 +86,9 @@ export const itemCheckoutValidation = [
     body('method').isIn(['stripe', 'mpesa']).withMessage('Invalid payment method').escape(),
 ]
 
-export const mpesaCallbackValidation = [
-    query('cart_id').optional().isMongoId().withMessage('Transaction ID is required').escape(),
-    query('product_id').optional().isMongoId().withMessage('Product ID is required').escape(),
-];
+
+
+// Cart Status validation
+export const cartStatusValidation = [
+    param('cart_id').isMongoId().withMessage('Cart id id required').escape()
+]
