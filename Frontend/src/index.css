@@ -1,1 +1,74 @@
 @import "tailwindcss";
+
+
+/* @font-face */
+
+/* Supreme */
+@font-face {
+    font-family: 'Supreme-Bold';
+    src: url('./assets/fonts/Supreme-Bold.woff2') format('woff2'),
+        url('./assets/fonts/Supreme-Bold.woff') format('woff');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Supreme-Extrabold';
+    src: url('./assets/fonts/Supreme-Extrabold.woff2') format('woff2'),
+        url('./assets/fonts/Supreme-Extrabold.woff') format('woff');
+    font-weight: 800;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Supreme-Light';
+    src: url('./assets/fonts/Supreme-Light.woff2') format('woff2'),
+        url('./assets/fonts/Supreme-Light.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Supreme-Medium';
+    src: url('./assets/fonts/Supreme-Medium.woff2') format('woff2'),
+        url('./assets/fonts/Supreme-Medium.woff') format('woff');
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Supreme-Regular';
+    src: url('./assets/fonts/Supreme-Regular.woff2') format('woff2'),
+        url('./assets/fonts/Supreme-Regular.woff') format('woff');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Supreme-Thin';
+    src: url('./assets/fonts/Supreme-Thin.woff2') format('woff2'),
+        url('./assets/fonts/Supreme-Thin.woff') format('woff');
+    font-weight: 100;
+    font-display: swap;
+    font-style: normal;
+}
+/* Verdana */
+@font-face {
+    font-family: 'Verdana';
+    src: url('./assets/fonts/Verdana.ttf') format('truetype');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verdana-Bold';
+    src: url('./assets/fonts/Verdana-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+}
