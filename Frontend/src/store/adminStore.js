@@ -32,6 +32,7 @@ export const  useAdminStore = create((set) => ({
                 isAdmin:false,
                 isCheckingAdmin:false
             });
+            throw error;
         }
     },
 
@@ -52,7 +53,8 @@ export const  useAdminStore = create((set) => ({
             set({
                 error:error.response?.data?.message || 'Error getting users',
                 isLoading:false
-            })
+            });
+            throw error;
         }
     },
 
@@ -75,6 +77,7 @@ export const  useAdminStore = create((set) => ({
                 error:error.response?.data?.message || 'Product create error',
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -96,6 +99,7 @@ export const  useAdminStore = create((set) => ({
                 error:error.response?.data?.message || 'Product edit error',
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -117,6 +121,7 @@ export const  useAdminStore = create((set) => ({
                 error:error.response?.data?.message || 'Product  delete error',
                 isLoading:false
             });
+            throw error;
         }
     },
 

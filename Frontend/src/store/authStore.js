@@ -1,7 +1,9 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_URL  = import.meta.env.MODE === 'development' ? `http://localhost:${import.meta.env.PORT}/api/v1/auth` : '/api/v1/auth';
+const API_URL  = import.meta.env.MODE === 'development' ? `http://localhost:8000/api/v1/auth` : '/api/v1/auth';
+
+axios.defaults.withCredentials = true;
 
 export const useAuthStore = create((set) => ({
     user: null,
@@ -31,6 +33,7 @@ export const useAuthStore = create((set) => ({
                 error: error.response?.data?.message || 'Error signing up', 
                 isLoading: false 
             });
+            throw error;
         }
 
     },
@@ -55,6 +58,7 @@ export const useAuthStore = create((set) => ({
                 error:error?.response?.message || 'Error signing in', 
                 isLoading:false 
             });
+            throw error;
         }
     },
 
@@ -79,6 +83,7 @@ export const useAuthStore = create((set) => ({
                 error:error?.response?.message || 'Error signing out',
                 isLoading:false
             });
+            throw error;
         }
 
     },
@@ -103,6 +108,7 @@ export const useAuthStore = create((set) => ({
                 isAuthenticated:false,
                 isCheckingAuth:false
             });
+            throw error;
         }
     },
 
@@ -126,6 +132,7 @@ export const useAuthStore = create((set) => ({
                 error:error?.response?.message || 'Error signing in', 
                 isLoading:false 
             });
+            throw error;
         }
 
     },

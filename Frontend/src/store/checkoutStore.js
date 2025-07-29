@@ -45,6 +45,8 @@ export const checkoutStore = create ((set) => ({
                     error:'Unknown payment method',
                     isLoading:false
                 });
+                const error = new Error("Unknown payment method");
+                throw error;
             }
             
 
@@ -52,7 +54,8 @@ export const checkoutStore = create ((set) => ({
             set({
                 error:error.response?.data?.message || 'Error in cart checkout',
                 isLoading:false
-            })
+            });
+            throw error;
         }
     },
     
@@ -84,6 +87,8 @@ export const checkoutStore = create ((set) => ({
                     error:'Unknown payment method',
                     isLoading:false
                 });
+                const error = new Error("Unknown payment method");
+                throw error;
             }
 
         } catch (error) {
@@ -91,6 +96,7 @@ export const checkoutStore = create ((set) => ({
                 error:error.response?.data?.message || 'Error in item checkout',
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -113,6 +119,7 @@ export const checkoutStore = create ((set) => ({
                 error:error.response?.data?.message || 'Error confirming cart/order status',
                 isLoading:false
             });
+            throw error;
         }
 
     }

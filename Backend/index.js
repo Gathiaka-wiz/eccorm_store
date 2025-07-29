@@ -1,6 +1,7 @@
 import express from "express";
 import colors from "colors";
 import cookieParser from "cookie-parser";
+import cors from "cors"; // Import CORS
 
 import './config/env.config.js'; // Load env variables first
 import connectDb from "./config/db.config.js";
@@ -24,6 +25,11 @@ import { PORT } from "./config/env.config.js";
 
 const app = express();
 
+app.use(cors({
+    origin: 'http://localhost:5173', // your frontend URL
+    credentials: true
+}));
+
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
@@ -45,6 +51,7 @@ app.use('/api/v3/admin', AdminRoutes);
 // Local middleware
 app.use(errorMiddleware);
 app.use(routeLogger);
+
 
 app.listen(PORT,async  () => {
     await connectDb();

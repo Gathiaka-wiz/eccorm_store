@@ -29,6 +29,7 @@ export const userStore = create( (set) => ({
                 error:error.response?.data?.message || 'Products fetch error' ,
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -52,6 +53,7 @@ export const userStore = create( (set) => ({
                 error:error.response?.data?.message || 'User profile fetch error' ,
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -75,6 +77,7 @@ export const userStore = create( (set) => ({
                 error:error.response?.data?.message || 'User cart fetch error' ,
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -98,6 +101,7 @@ export const userStore = create( (set) => ({
                 error:error.response?.data?.message || 'Cart add/update error' ,
                 isLoading:false
             });
+            throw error;
         }
     },
 
@@ -121,6 +125,7 @@ export const userStore = create( (set) => ({
                 error:error.response?.data?.message || 'Cart add/update error' ,
                 isLoading:false
             });
+            throw error;
         }
     },
 
