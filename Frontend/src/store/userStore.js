@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { create } from 'zustand';
 
+import { apiRequest } from '../utils/apiRequest';
+
 const API_URL = import.meta.env.MODE === 'development' ? `http://localhost:${import.meta.env.PORT}/api/v2`  : 'api/v2';
+
+axios.defaults.withCredentials = true;
 
 export const userStore = create( (set) => ({
     data:null,
@@ -14,19 +18,19 @@ export const userStore = create( (set) => ({
         set({ isLoading:true, error:null, message:null, data:null });
 
         try {
-            const response = await axios.get(`${API_URL}/products`);
+            const data = await apiRequest( 'get', `${API_URL}/products`);
 
             set({
                 error:null,
-                data:response.data.data,
-                message:response.data.message || 'Products fetch success',
+                data:data.data,
+                message:data.message || 'Products fetch success',
                 isLoading:false
             });
 
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Products fetch error' ,
+                error:error.data.message || 'Products fetch error' ,
                 isLoading:false
             });
             throw error;
@@ -38,19 +42,19 @@ export const userStore = create( (set) => ({
         set({ isLoading:true, error:null, message:null, data:null });
 
         try {
-            const response = await axios.get(`${API_URL}/user`);
+            const data = await apiRequest('get', `${API_URL}/user`);
 
             set({
                 error:null,
-                data:response.data.user,
-                message:response.data.message  || 'User profile fetch success' ,
+                data:data.user,
+                message:data.message  || 'User profile fetch success' ,
                 isLoading:false
             });
 
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'User profile fetch error' ,
+                error:error.data.message || 'User profile fetch error' ,
                 isLoading:false
             });
             throw error;
@@ -62,19 +66,19 @@ export const userStore = create( (set) => ({
         set({ isLoading:true, error:null, message:null, data:null });
 
         try {
-            const response = await axios.get(`${API_URL}/user/cart`);
+            const data = await  apiRequest('get',`${API_URL}/user/cart`);
 
             set({
                 error:null,
-                data:response.data.data,
-                message:response.data.message  || 'User cart fetch success' ,
+                data:data.data,
+                message:data.message  || 'User cart fetch success' ,
                 isLoading:false
             });
 
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'User cart fetch error' ,
+                error:error.data.message || 'User cart fetch error' ,
                 isLoading:false
             });
             throw error;
@@ -86,19 +90,19 @@ export const userStore = create( (set) => ({
         set({ isLoading:true, error:null, message:null, data:null });
 
         try {
-            const response = await axios.post(`${API_URL}/product/${product_id}/add-to-cart`, { quantity });
+            const data = await apiRequest('post',`${API_URL}/product/${product_id}/add-to-cart`, { quantity });
 
             set({
                 error:null,
-                data:response.data.data,
-                message:response.data.message  || 'Cart add/update fetch success' ,
+                data:data.data,
+                message:data.message  || 'Cart add/update fetch success' ,
                 isLoading:false
             });
 
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Cart add/update error' ,
+                error:error.data.message || 'Cart add/update error' ,
                 isLoading:false
             });
             throw error;
@@ -110,19 +114,19 @@ export const userStore = create( (set) => ({
         set({ isLoading:true, error:null, message:null, data:null });
 
         try {
-            const response = await axios.delete(`${API_URL}/user/${product_id}/delete-from-cart`);
+            const data = await apiRequest('delete',`${API_URL}/user/${product_id}/delete-from-cart`);
 
             set({
                 error:null,
-                data:response.data.data,
-                message:response.data.message  || 'Cart add/update fetch success' ,
+                data:data.data,
+                message:data.message  || 'Cart add/update fetch success' ,
                 isLoading:false
             });
 
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Cart add/update error' ,
+                error:error.data.message || 'Cart add/update error' ,
                 isLoading:false
             });
             throw error;

@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
+import { apiRequest } from '../utils/apiRequest'
+
 const API_URL  = import.meta.env.MODE === 'development' ? `http://localhost:8000/api/v1/auth` : '/api/v1/auth';
 
 axios.defaults.withCredentials = true;
@@ -18,19 +20,20 @@ export const useAuthStore = create((set) => ({
 
         try {
             
-            const response = await axios.post(`${API_URL}/signup`, { name, email, password });
+
+            const data = await apiRequest(`post`, `${API_URL}/signup`, { name, email, password });
 
             set({
-                user:response.data.user,
+                user:data.user,
                 isAuthenticated: true,
-                message: response.data.message || 'Signup successful',
+                message: data.message || 'Signup successful',
                 error: null,
                 isLoading: false,
             });
 
         } catch (error) {
             set({ 
-                error: error.response?.data?.message || 'Error signing up', 
+                error: error.data?.message || 'Error signing up', 
                 isLoading: false 
             });
             throw error;
@@ -42,12 +45,13 @@ export const useAuthStore = create((set) => ({
         set({ isLoading:true, error:null, message:null });
 
         try {
-            const response = await axios.post(`${API_URL}/signin`, { email, password });
+        
+            const data = await apiRequest(`post`, `${API_URL}/signin`, { email, password });
 
             set({
-                user:response.data.user,
+                user:data.user,
                 isAuthenticated:true,
-                message:response.data.message || 'Signin successful',
+                message:data.message || 'Signin successful',
                 error:null,
                 isLoading:false
             });
@@ -55,7 +59,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({ 
-                error:error?.response?.message || 'Error signing in', 
+                error:error?.data.message || 'Error signing in', 
                 isLoading:false 
             });
             throw error;
@@ -67,12 +71,13 @@ export const useAuthStore = create((set) => ({
 
         try {
             
-            const response = await axios.post(`${API_URL}/signout`);
+            const data = await apiRequest(`post`, `${API_URL}/signout`);
+
 
             set({
                 user:null,
                 isAuthenticated:false,
-                message:response.data.message|| 'Signout success',
+                message:data.message|| 'Signout success',
                 error:null,
                 isLoading:false
             });
@@ -80,7 +85,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({
-                error:error?.response?.message || 'Error signing out',
+                error:error?.data.message || 'Error signing out',
                 isLoading:false
             });
             throw error;
@@ -93,10 +98,11 @@ export const useAuthStore = create((set) => ({
 
         try {
             
-            const response = await axios.get(`${API_URL}/check-auth`);
+            
+            const data = await apiRequest(`get`, `${API_URL}//check-auth`);
 
             set({
-                user:response.user,
+                user:data.user,
                 isAuthenticated:true,
                 error:null,
                 isCheckingAuth: true,
@@ -104,7 +110,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({
-                error:error?.response?.message || 'Error checking authentication',
+                error:error?.data.message || 'Error checking authentication',
                 isAuthenticated:false,
                 isCheckingAuth:false
             });
@@ -117,19 +123,19 @@ export const useAuthStore = create((set) => ({
 
         try {
             
-            const response = await axios.post(`${API_URL}/signup/verify-account` , { verificationToken });
+            const data = await apiRequest('post', `${API_URL}/signup/verify-account`, { verificationToken } );
 
             set({
-                user:response.data.user,
+                user:data.user,
                 isAxiosError:true,
-                message:response.data.message || 'Account verification success',
+                message:data.message || 'Account verification success',
                 error:null,
                 isLoading:false
             });
 
         } catch (error) {
             set({ 
-                error:error?.response?.message || 'Error signing in', 
+                error:error?.data.message || 'Error signing in', 
                 isLoading:false 
             });
             throw error;

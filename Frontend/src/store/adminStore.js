@@ -1,7 +1,11 @@
 import axios from 'axios';
 import { create } from 'zustand';
 
+import { apiRequest } from '../utils/apiRequest'
+
 const API_URL = import.meta.env.MODE === 'development' ? `http://localhost:${import.meta.env.PORT}/api/v3/admin` : '/api/v3/admin';
+
+axios.defaults.withCredentials = true;
 
 
 export const  useAdminStore = create((set) => ({
@@ -18,7 +22,7 @@ export const  useAdminStore = create((set) => ({
         try {
             
             // eslint-disable-next-line no-unused-vars
-            const response = await axios.get(`${API_URL}/check-admin`);
+            const data = await apiRequest('get', `${API_URL}/check-admin`);
 
             set({
                 error:null,
@@ -28,7 +32,7 @@ export const  useAdminStore = create((set) => ({
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Error checking Admin',
+                error:error.data?.message || 'Error checking Admin',
                 isAdmin:false,
                 isCheckingAdmin:false
             });
@@ -40,18 +44,18 @@ export const  useAdminStore = create((set) => ({
         set({ isLoading:true, data:null,  error:null, message:null });
 
         try {
-            const response = await axios.get(`${API_URL}/users`);
+            const data = await apiRequest( 'get', `${API_URL}/users`);
 
             set({
-                data:response.data.data,
-                message:response.data.message || 'Users fetch success',
+                data:data.data,
+                message:data.message || 'Users fetch success',
                 error:null,
                 isLoading:false
             });
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Error getting users',
+                error:error.data?.message || 'Error getting users',
                 isLoading:false
             });
             throw error;
@@ -63,18 +67,18 @@ export const  useAdminStore = create((set) => ({
         set({ isLoading:true, data:null, error:null,  message:null });
 
         try {
-            const response = await axios.post(`${API_URL}/create-product`, { image, product_name, price, available_stock, description });
+            const data = await apiRequest('post', `${API_URL}/create-product`, { image, product_name, price, available_stock, description });
 
             set({
-                data:response.data.product,
+                data:data.product,
                 error:null,
-                message:response.data.message || 'Product create success',
+                message:data.message || 'Product create success',
                 isLoading:false
             });
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Product create error',
+                error:error.data.message || 'Product create error',
                 isLoading:false
             });
             throw error;
@@ -85,18 +89,18 @@ export const  useAdminStore = create((set) => ({
         set({ isLoading:true, data:null, error:null,  message:null });
 
         try {
-            const response = await axios.patch(`${API_URL}/${product_id}/edit-product`, { image, product_name, price, available_stock, description });
+            const data = await apiRequest('patch', `${API_URL}/${product_id}/edit-product`, { image, product_name, price, available_stock, description });
 
             set({
-                data:response.data.product,
+                data:data.product,
                 error:null,
-                message:response.data.message || 'Product edit success',
+                message:data.message || 'Product edit success',
                 isLoading:false
             });
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Product edit error',
+                error:error.data.message || 'Product edit error',
                 isLoading:false
             });
             throw error;
@@ -108,17 +112,17 @@ export const  useAdminStore = create((set) => ({
         set({ isLoading:true, error:null,  message:null });
 
         try {
-            const response = await axios.post(`${API_URL}/${product_id}/delete-product`);
+            const data = await apiRequest('delete', `${API_URL}/${product_id}/delete-product`);
 
             set({
                 error:null,
-                message:response.data.message || 'Product delete success',
+                message:data.message || 'Product delete success',
                 isLoading:false
             });
 
         } catch (error) {
             set({
-                error:error.response?.data?.message || 'Product  delete error',
+                error:error.data.message || 'Product  delete error',
                 isLoading:false
             });
             throw error;
