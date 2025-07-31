@@ -127,7 +127,6 @@ export const useAuthStore = create((set) => ({
 
             set({
                 user:data.user,
-                isAxiosError:true,
                 message:data.message || 'Account verification success',
                 error:null,
                 isLoading:false
@@ -135,7 +134,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({ 
-                error:error?.data.message || 'Error signing in', 
+                error:error?.data?.message || 'Error signing in', 
                 isLoading:false 
             });
             throw error;
