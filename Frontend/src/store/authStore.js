@@ -33,7 +33,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({ 
-                error: error.data?.message || 'Error signing up', 
+                error: error?.data?.message || 'Error signing up', 
                 isLoading: false 
             });
             throw error;
@@ -59,7 +59,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({ 
-                error:error?.data.message || 'Error signing in', 
+                error:error?.data?.message || 'Error signing in', 
                 isLoading:false 
             });
             throw error;
@@ -85,7 +85,7 @@ export const useAuthStore = create((set) => ({
 
         } catch (error) {
             set({
-                error:error?.data.message || 'Error signing out',
+                error:error?.data?.message || 'Error signing out',
                 isLoading:false
             });
             throw error;
