@@ -9,8 +9,11 @@ const verifyToken = async (req, res, next) => {
 
     try {
         
-        if (!token) res.status(401).json({ success: false, message: 'No token provided, authorization denied' });
-
+        if (!token) {
+            const error = new Error(`Error verifying token : ${err}`);
+            error.statusCode = 505;
+            throw error;
+        }
         // Verify the token
         const decoded = jwt.verify(token, JWT_SECRET);
 

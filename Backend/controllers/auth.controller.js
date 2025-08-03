@@ -196,7 +196,7 @@ export const  signout = async ( req, res, next ) => {
 export const checkAuth = async ( req, res, next) => {
 
     try {
-        const user = user.findById(req.userId).select("-password");
+        const user = await User.findById(req.userId).select("-password");
 
         if (!user) {
             const error = new Error('User not found');

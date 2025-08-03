@@ -3,7 +3,7 @@ import colors from "colors";
 import cookieParser from "cookie-parser";
 import cors from "cors"; // Import CORS
 
-import './config/env.config.js'; // Load env variables first
+
 import connectDb from "./config/db.config.js";
 
 import cloudinary from "./config/cloudinary.config.js"; // Cloudinary configuration
@@ -26,7 +26,8 @@ import { PORT } from "./config/env.config.js";
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:5173', // your frontend URL
+    origin: 'http://localhost:5173', 
+    // origin:'https://cmfjqv08-5173.uks1.devtunnels.ms',// your frontend URL
     credentials: true
 }));
 
