@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@theme {
+    --breakpoint-xs: 22rem;
+}
 
 /* @font-face */
 
@@ -11,7 +14,7 @@
     font-weight: 700;
     font-display: swap;
     font-style: normal;
-    /* color: #ffffffb0; */
+    /* color: #ffa069cc; */
 }
 
 @font-face {
@@ -56,6 +59,7 @@
     font-weight: 100;
     font-display: swap;
     font-style: normal;
+    background: url('./assets/images/hero_img.png');
 }
 /* Verdana */
 @font-face {

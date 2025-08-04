@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {  SearchIcon, ShoppingCart, User} from 'lucide-react';
+import { motion } from 'framer-motion';
 
 import HeroSection from '../sections/HeroSection';
 import ProductsSection from '../sections/ProductsSection';
@@ -47,7 +49,12 @@ const HomePage = () => {
 
     return(
         <div className='w-screen h-screen relative bg-white ' >
-            <nav className='fixed flex top-0 left-0 right-0 bg-gray-200 z-50  ' >
+            <motion.nav 
+                initial={{ opacity:0, y:-200 }}
+                animate={{ opacity:1, y:0 }}
+                transition={{ duration:0.5 }}
+                className='fixed flex top-0 left-0 right-0  z-90 bg-white ' 
+            >
                 <ul className='flex px-2 py-2.5 justify-between w-screen sm:justify-evenly' >
                     <h1 className=' h-8 font-[Supreme-ExtraBold] text-black w-max sm:text-2xl sm:h-9 text-center md:text-4xl ' >Tech Store</h1>
                     <form className='w-5/12 h-8 relative flex align-middle justify-center  sm:h-10 ' onSubmit={handleSearch} >
@@ -73,11 +80,11 @@ const HomePage = () => {
                             </>
                             :
                             <div>
-                                <button className=' bg-[#ff6214] text-white font-[Supreme-Regular] text-sm p-1 rounded cursor-pointer sm:w-30 sm:h-9 md:text-lg md:rounded-[5.5px] md:px-2 ' onClick={signupRedirect} >Signin/Signup</button>
+                                <button className=' bg-[#ff6214] text-white font-[Supreme-Regular] text-sm px-1 rounded cursor-pointer sm:w-30 sm:h-9 md:text-lg md:rounded-[5.5px] md:w-32 ' onClick={signupRedirect} >Signin/Signup</button>
                             </div>
                     }
                 </ul>
-            </nav>
+            </motion.nav>
             <HeroSection />
             <ProductsSection />
             <FooterSection />
