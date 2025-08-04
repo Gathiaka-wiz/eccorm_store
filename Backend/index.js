@@ -34,7 +34,7 @@ app.use(cors({
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(arcjetMiddleware);
+// app.use(arcjetMiddleware);
 app.use(express.urlencoded({ extended: true }));
 
 

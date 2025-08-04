@@ -3,12 +3,13 @@ import { create } from 'zustand';
 
 import { apiRequest } from '../utils/apiRequest';
 
-const API_URL = import.meta.env.MODE === 'development' ? `http://localhost:${import.meta.env.PORT}/api/v2`  : 'api/v2';
+const API_URL = import.meta.env.MODE === 'development' ? `http://localhost:8000/api/v2`  : 'api/v2';
 
 axios.defaults.withCredentials = true;
 
 export const userStore = create( (set) => ({
     data:null,
+    cartTotal:null,
     error:null,
     message:null,
     isLoading:false,
@@ -30,7 +31,7 @@ export const userStore = create( (set) => ({
 
         } catch (error) {
             set({
-                error:error.data.message || 'Products fetch error' ,
+                error:error?.data?.message || 'Products fetch error' ,
                 isLoading:false
             });
             throw error;
@@ -54,7 +55,7 @@ export const userStore = create( (set) => ({
 
         } catch (error) {
             set({
-                error:error.data.message || 'User profile fetch error' ,
+                error:error?.data?.message || 'User profile fetch error' ,
                 isLoading:false
             });
             throw error;
@@ -66,11 +67,12 @@ export const userStore = create( (set) => ({
         set({ isLoading:true, error:null, message:null, data:null });
 
         try {
-            const data = await  apiRequest('get',`${API_URL}/user/cart`);
+            const data = await  apiRequest(`get`,`${API_URL}/user/cart`);
 
             set({
                 error:null,
                 data:data.data,
+                cartTotal:data.cartTotal,
                 message:data.message  || 'User cart fetch success' ,
                 isLoading:false
             });
@@ -78,7 +80,7 @@ export const userStore = create( (set) => ({
 
         } catch (error) {
             set({
-                error:error.data.message || 'User cart fetch error' ,
+                error:error?.data?.message || 'User cart fetch error' ,
                 isLoading:false
             });
             throw error;
@@ -102,7 +104,7 @@ export const userStore = create( (set) => ({
 
         } catch (error) {
             set({
-                error:error.data.message || 'Cart add/update error' ,
+                error:error?.data?.message || 'Cart add/update error' ,
                 isLoading:false
             });
             throw error;
@@ -126,7 +128,7 @@ export const userStore = create( (set) => ({
 
         } catch (error) {
             set({
-                error:error.data.message || 'Cart add/update error' ,
+                error:error?.data?.message || 'Cart add/update error' ,
                 isLoading:false
             });
             throw error;

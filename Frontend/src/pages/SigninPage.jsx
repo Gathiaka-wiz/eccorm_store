@@ -63,7 +63,7 @@ const SigninPage = () => {
                     whileTap={{ scale:0.98 }}
                     transition={{ duration:0.1 }}
                     type='submit' 
-                    className='mb-1 w-50 h-12 bg-gradient-to-r from-orange-400 via-[#ff5602e6]  to-[#ff5602e6] text-[#ffff] h-10 rounded cursor-pointer transition-all duration-300 flex items-center justify-center  hover:from-[#ff5602e6] hover:via-orange-500 hover:to-[#ff5602e6] sm:w-60 md:w-65  '
+                    className='mb-1 w-50  bg-gradient-to-r from-orange-400 via-[#ff5602e6]  to-[#ff5602e6] text-[#ffff] h-10 rounded cursor-pointer transition-all duration-300 flex items-center justify-center  hover:from-[#ff5602e6] hover:via-orange-500 hover:to-[#ff5602e6] sm:w-60 md:w-65  '
                     disabled={isLoading}
                 >
                     {isLoading ? <Loader className='animate-spin cursor-none ' /> : 'Sign In'}

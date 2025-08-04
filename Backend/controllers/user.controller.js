@@ -63,6 +63,7 @@ export const getCart = async (req, res, next) => {
         res.status(200).json({ 
             success: true, 
             message: 'Cart fetched successfully',
+            cartTotal: cart ? cart.items.length : 0,
             data: cart || [] // Return an empty array if no cart found
         });
 
