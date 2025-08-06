@@ -49,21 +49,33 @@ const App = () => {
 
     if (isCheckingAuth) return <LoadingSpinner/>
     return (
-        <div className='w-screen h-screen flex flex-col items-center justify-center bg-gradient-to-bl from-bg-[#ffffffff]  via-[#ff5602cf] to-[#ff5602cf] font-[Supreme-Regular] '>
+        <div className=' w-screen h-100vh flex flex-col items-center justify-center bg-gradient-to-bl from-bg-[#ffffffff]  via-[#ff5602cf] to-[#ff5602cf] font-[Supreme-Regular] bg-no-repeat bg- bg-center  '>
             <Routes>
                 <Route path='/' element={ <HomePage/> } ></Route>
 
                 <Route 
                     path='signin' 
-                    element={ <RedirectAuthenticatedUser>  <SigninPage /> </RedirectAuthenticatedUser> } 
+                    element={ 
+                            <RedirectAuthenticatedUser>  
+                                <SigninPage /> 
+                            </RedirectAuthenticatedUser> 
+                        } 
                 />
                 <Route 
                     path='/signup' 
-                    element={ <RedirectAuthenticatedUser> <SignupPage/>  </RedirectAuthenticatedUser> } 
-                    />
+                    element={ 
+                            <RedirectAuthenticatedUser> 
+                                <SignupPage/>  
+                            </RedirectAuthenticatedUser> 
+                            } 
+                />
                 <Route 
                     path='verify-account' 
-                    element={ <RedirectAuthenticatedUser> <VerifyAccountPage />  </RedirectAuthenticatedUser> } 
+                    element={ 
+                            <RedirectAuthenticatedUser> 
+                                <VerifyAccountPage />  
+                            </RedirectAuthenticatedUser> 
+                            } 
                 />
             </Routes>
             <Toaster position="center-top"/>

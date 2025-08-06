@@ -9,6 +9,8 @@ axios.defaults.withCredentials = true;
 
 export const userStore = create( (set) => ({
     data:null,
+    cart:null,
+    products:null,
     cartTotal:null,
     error:null,
     message:null,
@@ -16,14 +18,14 @@ export const userStore = create( (set) => ({
 
 
     getProducts: async () => {
-        set({ isLoading:true, error:null, message:null, data:null });
+        set({ isLoading:true, error:null, message:null, products:null, });
 
         try {
             const data = await apiRequest( 'get', `${API_URL}/products`);
 
             set({
                 error:null,
-                data:data.data,
+                products:data.data,
                 message:data.message || 'Products fetch success',
                 isLoading:false
             });
@@ -64,14 +66,14 @@ export const userStore = create( (set) => ({
 
 
     getUserCart: async () => {
-        set({ isLoading:true, error:null, message:null, data:null });
+        set({ isLoading:true, error:null, message:null, cart:null });
 
         try {
             const data = await  apiRequest(`get`,`${API_URL}/user/cart`);
 
             set({
                 error:null,
-                data:data.data,
+                cart:data.data,
                 cartTotal:data.cartTotal,
                 message:data.message  || 'User cart fetch success' ,
                 isLoading:false

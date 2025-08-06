@@ -2,6 +2,7 @@
 
 @theme {
     --breakpoint-xs: 22rem;
+    --breakpoint-pc:64.07rem;
 }
 
 /* @font-face */

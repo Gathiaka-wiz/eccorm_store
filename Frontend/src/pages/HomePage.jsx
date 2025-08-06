@@ -15,7 +15,7 @@ const HomePage = () => {
 
     const navigate = useNavigate();
 
-    const { getUserCart, cartTotal } = userStore();
+    const { getUserCart, cartTotal, cart } = userStore();
     const { isAuthenticated } = useAuthStore();
 
     const handleSearch = (e) => {
@@ -44,11 +44,11 @@ const HomePage = () => {
             console.error(error);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[cartTotal]);
+    },[cartTotal,cart]);
 
 
     return(
-        <div className='w-screen h-screen relative bg-white ' >
+        <div className='w-screen h-screen  ' >
             <motion.nav 
                 initial={{ opacity:0, y:-200 }}
                 animate={{ opacity:1, y:0 }}
@@ -85,7 +85,7 @@ const HomePage = () => {
                     }
                 </ul>
             </motion.nav>
-            <HeroSection />
+            <HeroSection  />
             <ProductsSection />
             <FooterSection />
         </div>

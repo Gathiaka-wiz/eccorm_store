@@ -41,7 +41,7 @@ const SignupPage = () => {
 
 
     return (
-        <div className='w-screen h-screen flex flex-col items-center justify-center' >
+        <div className='w-screen h-screen flex flex-col items-center justify-center ' >
             <motion.form 
                 initial={{ opacity:0, y:20 }}
                 animate={{ opacity:1, y:0 }}
