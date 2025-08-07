@@ -29,7 +29,7 @@ const Product = ({ id, name, price, image }) => {
             className='flex flex-col items-center justify-center h-50 w-40 bg-[#ffffffd2] overflow-hidden rounded pt-2 pb-2 gap-y-0.5 mr-auto ml-auto text-sm sm:w-55 sm:h-60 sm:gap-1  sm:text-[0.9rem] min-pc:w-65 min-pc:h-75 min-pc:text-[1rem] min-pc:rounded-[8px]  ' 
         >
             <Link
-                to={`/product/${id}`}
+                to={`/product?id=${id}`}
                 className='flex items-center justify-center  cursor-pointer w-35 h-35 sm:w-45 sm:h-55 min-pc:w-55 min-pc:h-65 '
             >
                 <img 
