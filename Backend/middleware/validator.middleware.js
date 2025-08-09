@@ -92,3 +92,9 @@ export const itemCheckoutValidation = [
 export const cartStatusValidation = [
     param('cart_id').isMongoId().withMessage('Cart id id required').escape()
 ]
+
+
+// Product Validation
+export const productValidation = [
+    param('product_id').isMongoId().withMessage('Invalid product id').escape()
+]

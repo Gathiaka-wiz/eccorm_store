@@ -2,10 +2,10 @@ import { Router } from 'express';
 
 // Middleware import
 import verifyToken from '../middleware/verifyToken.middleware.js';
-import {  cartValidation, productDeleteValidation } from '../middleware/validator.middleware.js';
+import {  cartValidation, productValidation,  productDeleteValidation } from '../middleware/validator.middleware.js';
 
 // Controller import
-import { getAllProducts, getUserProfile, getCart, addAndUpdateCart, removeCartItem } from '../controllers/user.controller.js';         
+import { getAllProducts, getProducts, getUserProfile, getCart, addAndUpdateCart, removeCartItem } from '../controllers/user.controller.js';         
 
 
 const router = Router();
@@ -13,6 +13,7 @@ const router = Router();
 
 // Public Routes
 router.get('/products', getAllProducts );
+router.get('/product/:product_id', productValidation, getProducts );
 
 // User Routes
 router.get('/user', verifyToken,  getUserProfile);

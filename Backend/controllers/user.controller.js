@@ -13,7 +13,9 @@ export const getAllProducts = async (req, res, next) => {
         const products = await Product.find({});
 
         if (!products || products.length === 0) {
-            return res.status(404).json({ success: false, message: 'No products found' });
+            const error = new Error('No products found');
+            error.statusCode = 404
+            throw error;
         }
 
         res.status(200).json({ 
@@ -24,6 +26,31 @@ export const getAllProducts = async (req, res, next) => {
 
     } catch (error) {
         next(error);
+    }
+}
+
+export const getProducts = async ( req, res, next ) => {
+    try { 
+
+        const product_id  = req.params.product_id;
+        console.log(product_id)
+
+        const product = await Product.findById(product_id);
+
+        if (!product) {
+            const error = new Error(`Product with id ${product_id} does not exist`);
+            error.statusCode = 404;
+            throw error
+        }
+
+        res.status(200).json({
+            success:true,
+            message:'Product Fetch success',
+            product:product
+        });
+        
+    } catch (error) {
+        next(error)
     }
 }
 
@@ -54,8 +81,6 @@ export const getUserProfile = async (req, res, next) => {
 export const getCart = async (req, res, next) => {
     try {
         const user_id = req.userId;
-
-        console.log('User ID:', user_id);
 
         const cart = await Cart.findOne({ user_id, status: 'open' }).populate('items.product_id', '_id product_name price image');
         
