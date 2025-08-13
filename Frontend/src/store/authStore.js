@@ -3,6 +3,7 @@ import axios from 'axios';
 
 import { apiRequest } from '../utils/apiRequest'
 
+// const API_URL  = import.meta.env.MODE === 'development' ? `https://cmfjqv08-8000.uks1.devtunnels.ms/api/v1/auth` : '/api/v1/auth';
 const API_URL  = import.meta.env.MODE === 'development' ? `http://localhost:8000/api/v1/auth` : '/api/v1/auth';
 
 axios.defaults.withCredentials = true;

@@ -3,6 +3,7 @@ import { create } from 'zustand';
 
 import { apiRequest } from '../utils/apiRequest';
 
+// const API_URL = import.meta.env.MODE === 'development' ? `https://cmfjqv08-8000.uks1.devtunnels.ms/api/v4/checkout` : '/api/v4/checkout';
 const API_URL = import.meta.env.MODE === 'development' ? `https://localhost:${import.meta.env.PORT}/api/v4/checkout` : '/api/v4/checkout';
 
 axios.defaults.withCredentials = true;

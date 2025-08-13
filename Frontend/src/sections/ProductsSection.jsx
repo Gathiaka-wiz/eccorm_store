@@ -1,17 +1,15 @@
-import { useEffect } from 'react';
-
 import Product from '../components/Product';
 import { userStore } from '../store/userStore'
 
 const ProductsSection = () => {
 
-    const { getProducts, products } = userStore();
+    const {  products } = userStore();
 
     
-    useEffect(() => {
-        getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // useEffect(() => {
+    //     getProducts();
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
 
     return (
         <main 
@@ -21,7 +19,7 @@ const ProductsSection = () => {
             {
                 products !== null  ? 
                     products.map(prd => (
-                        <Product id={prd._id} name={prd.product_name} price={prd.price} image={prd.image.url} />
+                        <Product key={prd._id} id={prd._id} name={prd.product_name} price={prd.price} image={prd.image.url} />
                     ))
                 : ''
 

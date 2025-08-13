@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {  SearchIcon, ShoppingCart, User} from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -41,7 +41,7 @@ const Navigation = () => {
             console.error(error);
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[cartTotal,cart]);
+    },[cartTotal]);
 
     return (
         <motion.nav 
@@ -51,7 +51,12 @@ const Navigation = () => {
                     className='fixed flex top-0 left-0 right-0  z-90 bg-white ' 
                 >
                     <ul className='flex px-2 py-2.5 justify-between w-screen sm:justify-evenly' >
-                        <h1 className=' h-8 font-[Supreme-ExtraBold] text-black w-max sm:text-2xl sm:h-9 text-center md:text-4xl ' >Tech Store</h1>
+                        <Link 
+                            to={'/'}
+                            className=' h-8 font-[Supreme-ExtraBold] text-black w-max sm:text-2xl sm:h-9 text-center md:text-4xl ' 
+                        >
+                            Tech Store
+                        </Link>
                         <form className='w-5/12 h-8 relative flex align-middle justify-center  sm:h-10 ' onSubmit={handleSearch} >
                             <SearchIcon className= 'ml-1 absolute left-0 top-0 bottom-0 text-white w-5 h-8 z-10 sm:h-10 sm:w-6 md:ml-5  ' type='submit' onClick={handleSearch} />
                             <input 
@@ -75,7 +80,7 @@ const Navigation = () => {
                                 </>
                                 :
                                 <div>
-                                    <button className=' bg-[#ff6214] text-white font-[Supreme-Regular] text-sm px-1 rounded cursor-pointer sm:w-30 sm:h-9 md:text-lg md:rounded-[5.5px] md:w-32 ' onClick={signupRedirect} >Signin/Signup</button>
+                                    <button className=' bg-[#ff6214] h-8 text-white font-[Supreme-Regular] text-sm px-1 rounded cursor-pointer sm:w-30 sm:h-9 md:text-lg md:rounded-[5.5px] md:w-32 ' onClick={signupRedirect} >Signin/Signup</button>
                                 </div>
                         }
                     </ul>

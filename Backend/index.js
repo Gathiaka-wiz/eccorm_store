@@ -25,8 +25,17 @@ import { PORT } from "./config/env.config.js";
 
 const app = express();
 
+const allowedOrigins = ['https://cmfjqv08-5173.uks1.devtunnels.ms','http://localhost:5173'];
+
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
+    // origin: 'http://localhost:5173', 
     // origin:'https://cmfjqv08-5173.uks1.devtunnels.ms',// your frontend URL
     credentials: true
 }));

@@ -1,15 +1,24 @@
 /* eslint-disable no-unused-vars */
-import { Link } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { toast } from 'react-hot-toast';
 
 import { userStore } from '../store/userStore';
+import { useAuthStore } from '../store/authStore';
 
 const Product = ({ id, name, price, image }) => {
 
+
+    const navigate = useNavigate();
+    
     const { addAndUpdateCart, message, error } = userStore();
+    const { isAuthenticated } = useAuthStore();
 
     const addToCart = (event) => {
+        if (!isAuthenticated) {
+            navigate('/signin');
+            return;
+        }
         event.preventDefault()
         try {
             addAndUpdateCart(id, 1);

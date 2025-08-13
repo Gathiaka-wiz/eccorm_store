@@ -10,7 +10,7 @@ const verifyToken = async (req, res, next) => {
     try {
         
         if (!token) {
-            const error = new Error(`Error verifying token : ${err}`);
+            const error = new Error(`Error verifying token `);
             error.statusCode = 505;
             throw error;
         }
@@ -22,11 +22,9 @@ const verifyToken = async (req, res, next) => {
         next();
 
 
-    } catch (err) {
-        const error = new Error(`Error verifying token : ${err}`);
-        error.statusCode = 500;
+    } catch (error) {
         next(error);
-        console.error("Error in verifyToken middleware:", error).red.bold;
+        console.error("Error in verifyToken middleware:", error);
         
     }
 }

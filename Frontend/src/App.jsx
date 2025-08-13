@@ -10,6 +10,7 @@ import SignupPage from './pages/SignupPage';
 import SigninPage from "./pages/SigninPage";
 import VerifyAccountPage from './pages/VerifyAccount';
 import HomePage from "./pages/HomePage";
+import ProductPage from "./pages/ProductPage";
 
 // Components
 import LoadingSpinner from './components/LoadingSpinner'
@@ -76,6 +77,13 @@ const App = () => {
                                 <VerifyAccountPage />  
                             </RedirectAuthenticatedUser> 
                             } 
+                />
+
+                <Route 
+                    path='product/:product_id'
+                    element={
+                        <ProductPage/>
+                    }
                 />
             </Routes>
             <Toaster position="center-top"/>
