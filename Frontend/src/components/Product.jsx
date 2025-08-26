@@ -33,7 +33,7 @@ const Product = ({ id, name, price, image }) => {
     return (
         <motion.div
             initial={{ opacity:0, x:1000 }}
-            animate={{ opacity:1, x:0 }}
+            whileInView={{ opacity:1, x:0 }}
             transition={{ duration:0.5 }} 
             className='flex flex-col items-center justify-center h-50 w-40 bg-[#ffffffd2] overflow-hidden rounded pt-2 pb-2 gap-y-0.5 mr-auto ml-auto text-sm sm:w-55 sm:h-60 sm:gap-1  sm:text-[0.9rem] min-pc:w-65 min-pc:h-75 min-pc:text-[1rem] min-pc:rounded-[8px]  ' 
         >
