@@ -61,7 +61,7 @@ const CartPage = () => {
                 {
                     items.length > 0 ? 
                         items.map(( index, item ) => {
-                            < CartItem key={index} item={item} cart_id={cart._id} />
+                            < CartItem key={index} item={item} />
                         })
                     : <p className=' h-screen flex text-center justify-center align-middle text-xl md:text-2xl ' >No Cart available</p>
                 }

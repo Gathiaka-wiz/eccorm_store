@@ -5,15 +5,15 @@ import { Trash2Icon } from 'lucide-react';
 
 import { userStore } from '../store/userStore';
 
-const CartItem = ({ key, item, cart_id }) => {
+const CartItem = ({ key, item }) => {
 
     const {  updateCartItem, deleteCartItem } = userStore();
     
-    const handleProductQuantity = ( state, cart_id, cartItem_id, product_id, qty ) => {
+    const handleProductQuantity = ( state, product_id, qty ) => {
         if ( state === 'increment' ) {
             try {
                 const quantity = Math.floor(Number(qty) + 1 );
-                updateCartItem( cart_id, cartItem_id, product_id, quantity);
+                updateCartItem(  product_id, quantity);
             } catch (error) {
                 console.error(error);
                 toast.error('Error updating cart item quantity ')
@@ -21,7 +21,7 @@ const CartItem = ({ key, item, cart_id }) => {
         }else if ( state === 'decrement' ) {
             try {
                 const quantity = Math.floor(Number(qty) - 1 );
-                updateCartItem( cart_id, cartItem_id, product_id, quantity);
+                updateCartItem( product_id, quantity);
             } catch (error) {
                 console.error(error);
                 toast.error('Error updating cart item quantity ')
@@ -67,7 +67,7 @@ const CartItem = ({ key, item, cart_id }) => {
                         transition={{ duration:0.25, ease:'easeInOut' }}
                         className='bg-[#ff6415] inline-block text-white font-extrabold  px-2  rounded  '
                         onClick={() => {
-                            handleProductQuantity('decrement', cart_id, item._id, item.product_id, item.quantity);
+                            handleProductQuantity('decrement', item.product_id, item.quantity);
                         }} 
                     >
                         -
@@ -81,7 +81,7 @@ const CartItem = ({ key, item, cart_id }) => {
                         transition={{ duration:0.25, ease:'easeInOut' }}
                         className='bg-[#ff6415] inline-block text-white font-extrabold  px-2  rounded  ' 
                         onClick={() => {
-                            handleProductQuantity('increment', cart_id, item._id, item.product_id, item.quantity);
+                            handleProductQuantity('increment', item.product_id, item.quantity);
                         }} 
                         >
                         +
