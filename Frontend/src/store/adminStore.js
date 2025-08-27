@@ -9,12 +9,13 @@ axios.defaults.withCredentials = true;
 
 
 export const  useAdminStore = create((set) => ({
-    data:null,
-    isAdmin:false,
+    users:null,
     error:null,
     message:null,
+    products:null,
+    isAdmin:false,
+    isFetching:null,
     isCheckingAdmin:true,
-    isLoading:null,
 
     checkAdmin: async () => {
         set({  error:null, isAdmin:false, isCheckingAdmin:true });
@@ -41,22 +42,22 @@ export const  useAdminStore = create((set) => ({
     },
 
     getUsers: async () => {
-        set({ isLoading:true, data:null,  error:null, message:null });
+        set({ isFetching:true, users:null,  error:null, message:null });
 
         try {
             const data = await apiRequest( 'get', `${API_URL}/users`);
 
             set({
-                data:data.data,
+                users:data.data,
                 message:data.message || 'Users fetch success',
                 error:null,
-                isLoading:false
+                isFetching:false
             });
 
         } catch (error) {
             set({
                 error:error.data?.message || 'Error getting users',
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
@@ -64,44 +65,44 @@ export const  useAdminStore = create((set) => ({
 
 
     createProduct: async ( product_name, price, available_stock, description, image ) => {
-        set({ isLoading:true, data:null, error:null,  message:null });
+        set({ isFetching:true, products:null, error:null,  message:null });
 
         try {
             const data = await apiRequest('post', `${API_URL}/create-product`, { image, product_name, price, available_stock, description });
 
             set({
-                data:data.product,
+                products:data.product,
                 error:null,
                 message:data.message || 'Product create success',
-                isLoading:false
+                isFetching:false
             });
 
         } catch (error) {
             set({
                 error:error.data.message || 'Product create error',
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
     },
 
     editProduct: async ( product_id, product_name, price, available_stock, description,  image ) => {
-        set({ isLoading:true, data:null, error:null,  message:null });
+        set({ isFetching:true, products:null, error:null,  message:null });
 
         try {
             const data = await apiRequest('patch', `${API_URL}/${product_id}/edit-product`, { image, product_name, price, available_stock, description });
 
             set({
-                data:data.product,
+                products:data.product,
                 error:null,
                 message:data.message || 'Product edit success',
-                isLoading:false
+                isFetching:false
             });
 
         } catch (error) {
             set({
                 error:error.data.message || 'Product edit error',
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
@@ -109,7 +110,7 @@ export const  useAdminStore = create((set) => ({
 
 
     deleteProduct: async ( product_id ) => {
-        set({ isLoading:true, error:null,  message:null });
+        set({ isFetching:true, error:null,  message:null });
 
         try {
             const data = await apiRequest('delete', `${API_URL}/${product_id}/delete-product`);
@@ -117,13 +118,13 @@ export const  useAdminStore = create((set) => ({
             set({
                 error:null,
                 message:data.message || 'Product delete success',
-                isLoading:false
+                isFetching:false
             });
 
         } catch (error) {
             set({
                 error:error.data.message || 'Product  delete error',
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
