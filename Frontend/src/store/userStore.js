@@ -138,11 +138,11 @@ export const userStore = create( (set) => ({
         }
     },
     
-    updateCartItem: async ( product_id, quantity ) => {
+    updateCartItem: async (  product_id, quantity ) => {
         set({ isFetching:true, error:null, message:null });
     
         try {
-            const data = await apiRequest('post',`${API_URL}/user/${product_id}/update-product`, { quantity });
+            const data = await apiRequest('patch',`${API_URL}/user/cart/${product_id}/update-product`, { quantity });
     
             set({
                 error:null,
