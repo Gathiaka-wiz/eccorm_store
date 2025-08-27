@@ -35,7 +35,7 @@ const CartPage = () => {
 
     return (
     <main className='w-[100vw] min-h-[100vh]  h-max flex flex-col items-center bg-gradient-to-bl from-bg-[#ffffffff] from-0%  via-[#ff9d6c] via-40%  to-[##ff874b] to-100% relative  ' >
-            <nav
+            <motion.nav
                 initial={{ opacity:0, y:-200 }}
                 animate={{ opacity:1, y:0 }}
                 transition={{ duration:0.5 }}
@@ -56,7 +56,7 @@ const CartPage = () => {
                         {/* Ksh : 5000 */}
                     </h1>
                 </ul>
-            </nav>
+            </motion.nav>
             <div className='mt-17 mb-5 grid flex-col justify-center sm:mt-20 gap-y-5  sm:mb-23 ' >
                 {
                     items.length > 0 ? 
