@@ -62,6 +62,7 @@ export const productDeletionValidation = [
 ];
 
 
+
 // User validation
 export const cartValidation = [
     param('product_id').isMongoId().withMessage('Invalid product id'),
@@ -70,7 +71,12 @@ export const cartValidation = [
 
 export const productDeleteValidation = [
     param('product_id').isMongoId().withMessage('Invalid product id').escape(),
-]
+];
+
+export const productQuantityUpdateValidation = [
+    param('product_id').isMongoId().withMessage('Invalid product id'),
+    body('quantity').isNumeric().withMessage('Quantity must be a number').escape()
+];
 
 // checkout validation
 export const checkoutValidation = [

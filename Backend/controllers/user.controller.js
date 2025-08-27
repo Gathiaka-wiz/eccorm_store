@@ -82,8 +82,13 @@ export const getCart = async (req, res, next) => {
     try {
         const user_id = req.userId;
 
-        const cart = await Cart.findOne({ user_id, status: 'open' }).populate('items.product_id', '_id product_name price image');
+        const cart = await Cart.findOne({ user_id, status: 'open' }).populate('items._id  items.product_id ', '_id product_name price image');
         
+        if (!cart) {
+            const error = new Error('Cart not found');
+            error.statusCode = 404;
+            throw error;
+        }
 
         res.status(200).json({ 
             success: true, 
@@ -232,5 +237,63 @@ export const removeCartItem = async (req, res, next) => {
         await session.abortTransaction();
         session.endSession();
         next(error);
+    }
+}
+
+export const updateCartItemQuantity = async (req, res, next) => {
+    const session = await mongoose.startSession();
+    session.startTransaction()
+    try {
+        const user_id = req.userId;
+        const { product_id } = req.params;
+        const { quantity } = req.body;
+
+        const qty = parseInt(quantity, 10);
+
+        const cart = await Cart.findOne({ user_id, status: 'open' });
+        const product = await Product.findById(product_id);
+        
+        if(qty <= 0 ) {
+            const error = new Error('Quantity cannot be less than 1');
+            error.statusCode = 405;
+            throw error;
+        } 
+        
+        if (!cart) {
+            const error = new Error('Cart not found');
+            error.statusCode = 404;
+            throw error;
+        }
+        
+        if (!product) {
+            const error = new Error('Product not found');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        const idx = cart.items.findIndex(i => i.product_id.equals(product_id))
+        
+        if (idx <= -1 ) {
+            const error = new Error('Item not found in cart');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        // Update cartItem props
+        cart.items[idx].quantity = qty;
+        cart.items[idx].total = product.price * cart.items[idx].quantity;
+
+        // Update cart props
+        cart.subtotal = cart.items.reduce((sum, i) => sum + i.total, 0);
+        await cart.save({ session });
+        
+        await session.commitTransaction();
+        session.endSession();
+
+
+    } catch (error) {
+        await session.abortTransaction();
+        session.endSession();
+        next(error)
     }
 }
