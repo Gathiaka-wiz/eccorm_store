@@ -4,6 +4,7 @@ import  { Toaster } from 'react-hot-toast';
 
 // Store import
 import { useAuthStore } from "./store/authStore";
+import { useAdminStore } from "./store/adminStore";
 
 // Pages
 import SignupPage from './pages/SignupPage';
@@ -11,6 +12,9 @@ import SigninPage from "./pages/SigninPage";
 import VerifyAccountPage from './pages/VerifyAccount';
 import HomePage from "./pages/HomePage";
 import ProductPage from "./pages/ProductPage";
+import CartPage from "./pages/CartPage";
+import UserPage from "./pages/UserPage";
+import AdminUsersPage  from "./pages/AdminUsersPage";
 
 // Components
 import LoadingSpinner from './components/LoadingSpinner'
@@ -40,20 +44,64 @@ const RedirectAuthenticatedUser = ({ children }) => {
     return children;
 }
 
+// Redirect if not admin
+const RedirectRegularUser = ({ children }) => {
+    const { isAdmin } = useAdminStore();
+
+    if (!isAdmin) {
+        return <Navigate to='/' replace />
+    }
+
+    return children;
+}
+
 const App = () => {
     const { isCheckingAuth, checkAuth } = useAuthStore();
+    const { isCheckingAdmin, checkAdmin } = useAdminStore()
 
 
     useEffect(() => {
         checkAuth();
-    },[checkAuth]);
+        checkAdmin();
+    },[checkAuth,checkAdmin]);
+    
 
-    if (isCheckingAuth) return <LoadingSpinner/>
+    if (isCheckingAuth && isCheckingAdmin) return <LoadingSpinner/>
     return (
-        <div className=' w-screen h-100vh flex flex-col items-center justify-center bg-gradient-to-bl from-bg-[#ffffffff]  via-[#ff5602cf] to-[#ff5602cf] font-[Supreme-Regular] bg-no-repeat bg- bg-center  '>
+        <div className=' w-screen h-100vh flex flex-col items-center justify-center bg-gradient-to-bl from-bg-[#ffffffff]  via-[#ff5602cf] to-[#ff5602cf] font-[Supreme-Regular] bg-no-repeat  bg-center  '>
             <Routes>
-                <Route path='/' element={ <HomePage/> } ></Route>
 
+                {/* Public Routes */}
+                <Route path='/' element={ <HomePage/> } ></Route>
+                
+                <Route 
+                    path='product/:product_id'
+                    element={
+                        <ProductPage/>
+                    }
+                />
+
+                {/* User Routes */}
+                <Route
+                    path='/cart'
+                    element={
+                        <ProtectedRoutes>
+                            <CartPage/>
+                        </ProtectedRoutes>
+                    }
+                />
+
+                <Route
+                    path='/profile'
+                    element={
+                        <ProtectedRoutes>
+                            <UserPage/>
+                        </ProtectedRoutes>
+                    }
+                />
+
+
+                {/* Auth Routes */}
                 <Route 
                     path='signin' 
                     element={ 
@@ -79,12 +127,19 @@ const App = () => {
                             } 
                 />
 
-                <Route 
-                    path='product/:product_id'
+                {/* AdminRoutes */}
+
+                <Route
+                    path='admin/users'
                     element={
-                        <ProductPage/>
+                            <ProtectedRoutes>
+                                <RedirectRegularUser>
+                                    <AdminUsersPage/>
+                                </RedirectRegularUser>
+                            </ProtectedRoutes>
                     }
                 />
+
             </Routes>
             <Toaster position="center-top"/>
         </div>
