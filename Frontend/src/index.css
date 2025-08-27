@@ -5,6 +5,9 @@
     --breakpoint-pc:64.07rem;
 }
 
+*{
+    scrollbar-width: none;
+}
 /* @font-face */
 
 /* Supreme */
