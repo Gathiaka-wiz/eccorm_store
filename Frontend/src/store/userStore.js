@@ -11,16 +11,16 @@ axios.defaults.withCredentials = true;
 export const userStore = create( (set) => ({
     user:null,
     cart:null,
-    products:null,
-    product:null,
-    cartTotal:null,
     error:null,
     message:null,
-    isLoading:false,
+    product:null,
+    products:null,
+    cartTotal:null,
+    isFetching:false,
 
 
     getProducts: async () => {
-        set({ isLoading:true, error:null, message:null, products:null, });
+        set({ isFetching:true, error:null, message:null, products:null, });
 
         try {
             const data = await apiRequest( 'get', `${API_URL}/products`);
@@ -29,21 +29,21 @@ export const userStore = create( (set) => ({
                 error:null,
                 products:data.data,
                 message:data.message || 'Products fetch success',
-                isLoading:false
+                isFetching:false
             });
 
 
         } catch (error) {
             set({
                 error:error?.data?.message || 'Products fetch error' ,
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
     },
 
     getProduct: async ( product_id ) => {
-        set({ isLoading:true, error:null, message:null, product:null, });
+        set({ isFetching:true, error:null, message:null, product:null, });
 
         try {
             const data = await apiRequest( 'get', `${API_URL}/product/${product_id}`);
@@ -52,14 +52,14 @@ export const userStore = create( (set) => ({
                 error:null,
                 product:data.product,
                 message:data.message || 'Product fetch success',
-                isLoading:false
+                isFetching:false
             });
 
 
         } catch (error) {
             set({
                 error:error?.data?.message || 'Product fetch error' ,
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
@@ -67,7 +67,7 @@ export const userStore = create( (set) => ({
 
 
     getUserProfile: async (  ) => {
-        set({ isLoading:true, error:null, message:null, user:null });
+        set({ isFetching:true, error:null, message:null, user:null });
 
         try {
             const data = await apiRequest('get', `${API_URL}/user`);
@@ -76,14 +76,14 @@ export const userStore = create( (set) => ({
                 error:null,
                 user:data.user,
                 message:data.message  || 'User profile fetch success' ,
-                isLoading:false
+                isFetching:false
             });
 
 
         } catch (error) {
             set({
                 error:error?.data?.message || 'User profile fetch error' ,
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
@@ -91,7 +91,7 @@ export const userStore = create( (set) => ({
 
 
     getUserCart: async () => {
-        set({ isLoading:true, error:null, message:null, cart:null });
+        set({ isFetching:true, error:null, message:null, cart:null });
 
         try {
             const data = await  apiRequest(`get`,`${API_URL}/user/cart`);
@@ -101,14 +101,14 @@ export const userStore = create( (set) => ({
                 cart:data.data,
                 cartTotal:data.cartTotal,
                 message:data.message  || 'User cart fetch success' ,
-                isLoading:false
+                isFetching:false
             });
 
 
         } catch (error) {
             set({
                 error:error?.data?.message || 'User cart fetch error' ,
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }
@@ -116,7 +116,7 @@ export const userStore = create( (set) => ({
 
 
     addAndUpdateCart: async ( product_id, quantity ) => {
-        set({ isLoading:true, error:null, message:null });
+        set({ isFetching:true, error:null, message:null });
 
         try {
             const data = await apiRequest('post',`${API_URL}/product/${product_id}/add-to-cart`, { quantity });
@@ -125,22 +125,44 @@ export const userStore = create( (set) => ({
                 error:null,
                 cart:data.data,
                 message:data.message  || 'Cart add/update fetch success' ,
-                isLoading:false
+                isFetching:false
             });
 
 
         } catch (error) {
             set({
                 error:error?.data?.message || 'Cart add/update error' ,
-                isLoading:false
+                isFetching:false
+            });
+            throw error;
+        }
+    },
+    
+    updateCartItem: async ( product_id, quantity ) => {
+        set({ isFetching:true, error:null, message:null });
+    
+        try {
+            const data = await apiRequest('post',`${API_URL}/user/${product_id}/update-product`, { quantity });
+    
+            set({
+                error:null,
+                cart:data.data,
+                message:data.message  || 'Product add/update fetch success' ,
+                isFetching:false
+            });
+    
+    
+        } catch (error) {
+            set({
+                error:error?.data?.message || 'Product add/update error' ,
+                isFetching:false
             });
             throw error;
         }
     },
 
-
-    deleteCart: async ( product_id ) => {
-        set({ isLoading:true, error:null, message:null, });
+    deleteCartItem: async ( product_id ) => {
+        set({ isFetching:true, error:null, message:null, });
 
         try {
             const data = await apiRequest('delete',`${API_URL}/user/${product_id}/delete-from-cart`);
@@ -149,14 +171,14 @@ export const userStore = create( (set) => ({
                 error:null,
                 cart:data.data,
                 message:data.message  || 'Cart add/update fetch success' ,
-                isLoading:false
+                isFetching:false
             });
 
 
         } catch (error) {
             set({
                 error:error?.data?.message || 'Cart add/update error' ,
-                isLoading:false
+                isFetching:false
             });
             throw error;
         }

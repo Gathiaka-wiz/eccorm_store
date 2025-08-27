@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Stock images and json file
+*.webp
+*.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
