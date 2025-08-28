@@ -15,6 +15,7 @@ import ProductPage from "./pages/ProductPage";
 import CartPage from "./pages/CartPage";
 import UserPage from "./pages/UserPage";
 import AdminUsersPage  from "./pages/AdminUsersPage";
+import AdminProductsPage from "./pages/AdminProductsPage";
 
 // Components
 import LoadingSpinner from './components/LoadingSpinner'
@@ -46,11 +47,11 @@ const RedirectAuthenticatedUser = ({ children }) => {
 
 // Redirect if not admin
 const RedirectRegularUser = ({ children }) => {
-    const { isAdmin } = useAdminStore();
+    // const { isAdmin } = useAdminStore();
 
-    if (!isAdmin) {
-        return <Navigate to='/' replace />
-    }
+    // if (!isAdmin) {
+    //     return <Navigate to='/' replace />
+    // }
 
     return children;
 }
@@ -75,7 +76,7 @@ const App = () => {
                 <Route path='/' element={ <HomePage/> } ></Route>
                 
                 <Route 
-                    path='product/:product_id'
+                    path='/product/:product_id'
                     element={
                         <ProductPage/>
                     }
@@ -103,7 +104,7 @@ const App = () => {
 
                 {/* Auth Routes */}
                 <Route 
-                    path='signin' 
+                    path='/signin' 
                     element={ 
                             <RedirectAuthenticatedUser>  
                                 <SigninPage /> 
@@ -119,7 +120,7 @@ const App = () => {
                             } 
                 />
                 <Route 
-                    path='verify-account' 
+                    path='/verify-account' 
                     element={ 
                             <RedirectAuthenticatedUser> 
                                 <VerifyAccountPage />  
@@ -130,11 +131,22 @@ const App = () => {
                 {/* AdminRoutes */}
 
                 <Route
-                    path='admin/users'
+                    path='/admin/users'
                     element={
                             <ProtectedRoutes>
                                 <RedirectRegularUser>
                                     <AdminUsersPage/>
+                                </RedirectRegularUser>
+                            </ProtectedRoutes>
+                    }
+                />
+
+                <Route
+                    path='/admin/products'
+                    element={
+                            <ProtectedRoutes>
+                                <RedirectRegularUser>
+                                    <AdminProductsPage/>
                                 </RedirectRegularUser>
                             </ProtectedRoutes>
                     }
