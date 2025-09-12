@@ -59,10 +59,10 @@ const CartItem = ({ key, item }) => {
 			<div className="w-[65%] flex flex-col justify-center text-center  text-[1.2rem] gap-y-2 max-sm:text-[0.9rem] sm:text-[1.8rem] md:justify-around ">
 				<section className="min-pc:flex  min-pc:ml-auto min-pc:mr-auto min-pc:gap-x-20">
 					<p className="min-pc:bg-white min-pc:px-2 min-pc:rounded ">
-						Bt Speaker
+						{item.product_name}
 					</p>
 					<p className="min-pc:bg-white min-pc:px-2 min-pc:rounded ">
-						Ksh 300
+						Ksh {item.price}
 					</p>
 				</section>
 				<section className="flex ml-auto mr-auto gap-x-2 md:bg-white cursor-pointer">
