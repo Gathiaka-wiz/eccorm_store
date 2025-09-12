@@ -2,47 +2,61 @@ import { Router } from 'express';
 
 // Middleware import
 import verifyToken from '../middleware/verifyToken.middleware.js';
-import {  
-    cartValidation, 
-    productValidation,  
-    productDeleteValidation, 
-    productQuantityUpdateValidation  
+import {
+	cartValidation,
+	productValidation,
+	productDeleteValidation,
+	productQuantityUpdateValidation,
 } from '../middleware/validator.middleware.js';
 
 // Controller import
-import { 
-    getCart, 
-    getProducts, 
-    getUserProfile, 
-    getAllProducts, 
-    removeCartItem, 
-    addAndUpdateCart, 
-    updateCartItemQuantity
-} from '../controllers/user.controller.js';         
-
+import {
+    getCart,
+    getOrders,
+	getProducts,
+	getUserProfile,
+	getAllProducts,
+	removeCartItem,
+	addAndUpdateCart,
+	updateCartItemQuantity,
+} from '../controllers/user.controller.js';
 
 const router = Router();
 
-
 // Public Routes
-router.get('/products', getAllProducts );
-router.get('/product/:product_id', productValidation, getProducts );
+router.get('/products', getAllProducts);
+router.get('/product/:product_id', productValidation, getProducts);
 
 // User Routes
-router.get('/user', verifyToken,  getUserProfile);
+router.get('/user', verifyToken, getUserProfile);
 
-router.get('/user/cart', verifyToken,  getCart);
+router.get('/user/cart', verifyToken, getCart);
 
-router.post('/product/:product_id/add-to-cart', verifyToken, cartValidation, addAndUpdateCart);
+router.get('/user/orders', verifyToken, getOrders);
 
-router.delete('/user/:product_id/delete-from-cart', verifyToken, productDeleteValidation, removeCartItem);
+router.post(
+	'/product/:product_id/add-to-cart',
+	verifyToken,
+	cartValidation,
+	addAndUpdateCart
+);
 
-router.patch('/user/cart/:product_id/update-product', verifyToken, productQuantityUpdateValidation, updateCartItemQuantity);
+router.delete(
+	'/user/:product_id/delete-from-cart',
+	verifyToken,
+	productDeleteValidation,
+	removeCartItem
+);
 
+router.patch(
+	'/user/cart/:product_id/update-product',
+	verifyToken,
+	productQuantityUpdateValidation,
+	updateCartItemQuantity
+);
 
-// router.put('/:user_id/profile', verifyToken, UpdateUserProfile);        
+// router.put('/:user_id/profile', verifyToken, UpdateUserProfile);
 
 // router.delete('/:user_id/profile', verifyToken, DeleteUserProfile);
-
 
 export const UserRoutes = router;
