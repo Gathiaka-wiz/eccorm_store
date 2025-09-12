@@ -164,6 +164,9 @@ const App = () => {
 						</ProtectedRoutes>
 					}
 				/>
+
+				{/* Redirect for invalid route/s */}
+				<Route path='*' element={<Navigate to='/' replace />} />
 			</Routes>
 			<Toaster position="center-top" />
 		</div>
