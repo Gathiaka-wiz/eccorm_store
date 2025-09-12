@@ -17,6 +17,7 @@ import UserPage from './pages/UserPage';
 import AdminUsersPage from './pages/AdminUsersPage';
 import AdminProductsPage from './pages/AdminProductsPage';
 import OrdersPage from './pages/OrdersPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 // Components
 import LoadingSpinner from './components/LoadingSpinner';
@@ -102,6 +103,14 @@ const App = () => {
 					element={
 						<ProtectedRoutes>
 							<OrdersPage />
+						</ProtectedRoutes>
+					}
+				/>
+				<Route
+					path="/checkout"
+					element={
+						<ProtectedRoutes>
+							<CheckoutPage />
 						</ProtectedRoutes>
 					}
 				/>
