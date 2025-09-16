@@ -33,14 +33,12 @@ const Navigation = () => {
 
 	useEffect(() => {
 		try {
-			if (isAuthenticated) {
-				getUserCart();
-			}
+			isAuthenticated ? getUserCart() : null;
 		} catch (error) {
 			console.error(error);
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	},[cartTotal,isAuthenticated]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [cart]);
 
 	return (
 		<motion.nav
