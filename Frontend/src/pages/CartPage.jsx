@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { HomeIcon } from 'lucide-react';
 import { toast } from 'react-hot-toast';
@@ -10,21 +10,18 @@ import { userStore } from '../store/userStore';
 import CartItem from '../components/CartItem';
 
 const CartPage = () => {
-	const [items, setItems] = useState([]);
-
 	const navigate = useNavigate();
 
 	const { cart, cartTotal, getUserCart } = userStore();
 
 	const checkoutCart = () => {
-		navigate(`/checkout?cart_id=${cart._id}`);
+		cart ? navigate(`/checkout?cart_id=${cart._id}`) : navigate('/');
+		return;
 	};
 
 	useEffect(() => {
 		try {
 			getUserCart();
-			setItems(cart.items);
-			console.log(cart);
 		} catch (error) {
 			console.error(error);
 			toast.error(
@@ -53,15 +50,15 @@ const CartPage = () => {
 						Cart
 					</h1>
 					<h1 className="h-8 font-[Supreme-Bold] text-black w-max sm:text-xl sm:h-9 text-center md:text-2xl">
-						Ksh : {cartTotal ? cart.subtotal : '0'}
+						Ksh : {cart ? cart.subtotal : '0'}
 						{/* Ksh : 5000 */}
 					</h1>
 				</ul>
 			</motion.nav>
 			<div className="mt-17 mb-5 grid flex-col justify-center sm:mt-20 gap-y-5  sm:mb-23 ">
-				{items.length > 0 ? (
-					items.map((index, item) => {
-						<CartItem key={index} item={item} />;
+				{cart ? (
+					cart.items.map((item, index) => {
+						return <CartItem key={index} item={item} />;
 					})
 				) : (
 					<p className=" h-screen flex text-center justify-center align-middle text-xl md:text-2xl ">
@@ -72,7 +69,7 @@ const CartPage = () => {
 			<div className="fixed h-15 z-20 bottom-0 left-0 right-0  rounded flex justify-around align-middle sm:h-20 min-pc:h-18 min-pc:backdrop-blur-sm ">
 				<section className="w-[90vw] h-12  bg-white flex justify-around  align-middle rounded text-center text-[1.2rem] font-medium sm:h-15 sm:text-[1.8rem]  min-pc:h-16 ">
 					<p className=" my-auto ">
-						Products: {cartTotal ? cartTotal : '0'}{' '}
+						Products: {cart ? cartTotal : '0'}
 					</p>
 					<motion.button
 						whileHover={{ scale: 1.03 }}

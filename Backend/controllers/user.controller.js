@@ -79,10 +79,9 @@ export const getCart = async (req, res, next) => {
 		const user_id = req.userId;
 
 		const cart = await Cart.findOne({ user_id, status: 'open' }).populate(
-			'items._id  items.product_id ',
+			'items.product_id',
 			'_id product_name price image'
 		);
-
 		if (!cart) {
 			const error = new Error('Cart not found');
 			error.statusCode = 404;
@@ -103,31 +102,27 @@ export const getOrders = async (req, res, next) => {
 	try {
 		const user_id = req.userId;
 
-
 		const orders = await Order.find({ user_id });
 
-		
 		if (!orders) {
 			const error = new Error('Orders not found');
 			error.statusCode = 404;
 			throw error;
 		}
-		
-		const completedOrders = await Order.find({ user_id }, { status: 'completed' }).populate(
-			'items items.product_id ',
-			'_id product_name price image'
-		);
 
-		const paidOrders = await Order.find({ user_id },{status:'paid'}).populate(
-			'items items.product_id ',
-			'_id product_name price image'
-		);
-
+		const completedOrders = await Order.find(
+			{ user_id },
+			{ status: 'completed' }
+		).populate('items.product_id', '_id product_name price image');
+		const paidOrders = await Order.find(
+			{ user_id },
+			{ status: 'paid' }
+		).populate('items.product_id', '_id product_name price image');
 		res.status(200).json({
 			success: true,
 			message: 'Orders fetched successfully',
-			complete:completedOrders || [],
-			paid:paidOrders || [],
+			complete: completedOrders || [],
+			paid: paidOrders || [],
 		});
 	} catch (error) {
 		next(error);
