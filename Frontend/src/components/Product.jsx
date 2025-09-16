@@ -20,7 +20,7 @@ const Product = ({ id, name, price, image }) => {
 		event.preventDefault();
 		try {
 			addAndUpdateCart(id, 1);
-			toast.success(message || 'Cart updated successfully');
+			toast.success('Cart updated successfully');
 		} catch (error) {
 			toast.error(error.message);
 			console.error(error);
@@ -30,7 +30,7 @@ const Product = ({ id, name, price, image }) => {
 	return (
 		<motion.div
 			initial={{ opacity: 0, x: 1000 }}
-			whileInView={{ opacity: 1, x: 0 }}
+			animate={{ opacity: 1, x: 0 }}
 			transition={{ duration: 0.5 }}
 			viewport={{
 				once: true,
