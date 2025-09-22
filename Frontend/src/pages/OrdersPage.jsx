@@ -6,29 +6,32 @@ import { motion } from 'framer-motion';
 
 import OrderItem from '../components/OrderItem';
 import { userStore } from '../store/userStore';
-import toast from 'react-hot-toast';
 
 const OrdersPage = () => {
-	const [orders, setOrders] = useState(null);
+	const [orders, setOrders] = useState([]);
 	const { getUserOrders, paidOrders, completedOrders } = userStore();
 
 	const navigateTo = (state) => {
 		if (state === 'paid') {
-			setOrders(paidOrders);
-		} else if (state === 'completed') {
-			setOrders(completedOrders.items);
+			paidOrders.length > 0 ? setOrders(paidOrders.items): null;
+			return
+		} 
+		if (state === 'completed') {
+			completedOrders.length > 0 ? setOrders(completedOrders.items): null;
+			return
 		}
 	};
 	useEffect(() => {
 		try {
 			getUserOrders();
-			setOrders(completedOrders.items);
+			// completedOrders.items !== null ? setOrders(completedOrders.items): null;
+			completedOrders === null ? null : setOrders(completedOrders)
+			console.log(orders)
 		} catch (error) {
 			console.error(error);
-			toast.error(error.message);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [paidOrders, completedOrders]);
+	}, []);
 
 	return (
 		<main className="w-[100vw] min-h-[100vh]  h-max flex flex-col items-center bg-gradient-to-bl from-bg-[#ffffffff] from-0%  via-[#ff9d6c] via-40%  to-[##ff874b] to-100% relative ">
@@ -64,7 +67,6 @@ const OrdersPage = () => {
 					<button
 						onClick={
 							() => navigateTo('paid')
-							// navigateTo(orderState);
 						}
 						className="bg-white h-max w-max px-2 py-0.5 rounded-sm hover:bg-gray-200/95  "
 					>
@@ -73,7 +75,6 @@ const OrdersPage = () => {
 					<button
 						onClick={
 							() => navigateTo('completed')
-							// navigateTo(orderState);
 						}
 						className="bg-white h-max w-max px-2 py-0.5 rounded-sm hover:bg-gray-200/95  "
 					>
@@ -81,11 +82,11 @@ const OrdersPage = () => {
 					</button>
 				</section>
 				<section className="mt-17 mb-5 grid flex-col justify-center sm:mt-20 gap-y-5  sm:mb-23 ">
-					{orders !== null
+					{orders.length > 0 
 						? orders.map((index, item) => {
 								<OrderItem key={index} item={item} />;
 						  })
-						: ''}
+						: null}
 				</section>
 			</div>
 		</main>

@@ -120,7 +120,7 @@ export const userStore = create((set) => ({
 			set({
 				error: null,
 				paidOrders:data.paid,
-				completedOrders:data.completed,
+				completedOrders:data.complete,
 				message: data.message || 'User orders fetch success',
 				isFetching: false,
 			});

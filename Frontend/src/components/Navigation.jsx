@@ -39,6 +39,9 @@ const Navigation = () => {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [cart]);
+	
+	
+	
 
 	return (
 		<motion.nav
