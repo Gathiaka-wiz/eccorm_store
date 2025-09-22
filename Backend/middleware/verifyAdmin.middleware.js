@@ -2,7 +2,6 @@ import User from '../models/user.model.js';
 
 const verifyAdmin = async (req, res, next) => {
 	try {
-		// const admin = await User.findById(req.userId).select('-password');
 		const admin = await User.findOne({ _id: req.userId });
 
 		if (admin.role !== 'admin') {

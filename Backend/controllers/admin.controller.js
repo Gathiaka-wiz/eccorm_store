@@ -161,10 +161,10 @@ export const deleteProduct = async ( req, res, next ) => {
 export const checkAdmin = async ( req, res, next) => {
 
     try {
-        const user = user.findById(req.userId).select("-password");
+        const user = await User.findById(req.userId).select("-password");
 
         if ( user.role !== 'admin') {
-            const error = new Error('Unauthorized access ');
+            const error = new Error(`Unauthorized access role:${user.role} `);
             error.statusCode= 405;
             throw error;
         } 
