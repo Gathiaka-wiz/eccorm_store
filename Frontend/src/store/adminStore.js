@@ -5,7 +5,7 @@ import { apiRequest } from '../utils/apiRequest';
 
 const API_URL =
 	import.meta.env.MODE === 'development'
-		? `http://localhost:${import.meta.env.PORT}/api/v3/admin`
+		? `http://localhost:8000/api/v3/admin`
 		: '/api/v3/admin';
 
 axios.defaults.withCredentials = true;
