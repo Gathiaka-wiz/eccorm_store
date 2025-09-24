@@ -72,10 +72,17 @@ export const useAdminStore = create((set) => ({
 		set({ isFetching: true, products: null, error: null, message: null });
 
 		try {
+			const formData = new FormData();
+			formData.append('image', image);
+			formData.append('product_name', product_name);
+			formData.append('price', price);
+			formData.append('available_stock', available_stock);
+			formData.append('description', description);
+
 			const data = await apiRequest(
 				'post',
 				`${API_URL}/create-product`,
-				{ image, product_name, price, available_stock, description }
+				formData
 			);
 
 			set({
@@ -104,10 +111,17 @@ export const useAdminStore = create((set) => ({
 		set({ isFetching: true, products: null, error: null, message: null });
 
 		try {
+			const formData = new FormData();
+			formData.append('image', image);
+			formData.append('product_name', product_name);
+			formData.append('price', price);
+			formData.append('available_stock', available_stock);
+			formData.append('description', description);
+
 			const data = await apiRequest(
 				'patch',
 				`${API_URL}/${product_id}/edit-product`,
-				{ image, product_name, price, available_stock, description }
+				formData
 			);
 
 			set({
@@ -118,7 +132,7 @@ export const useAdminStore = create((set) => ({
 			});
 		} catch (error) {
 			set({
-				error: error.data.message || 'Product edit error',
+				error: error?.data?.message || 'Product edit error',
 				isFetching: false,
 			});
 			throw error;
