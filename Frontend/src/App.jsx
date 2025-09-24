@@ -27,10 +27,10 @@ const ProtectedRoutes = ({ children }) => {
 	const { isAuthenticated, user } = useAuthStore();
 
 	if (!isAuthenticated) {
-	    return <Navigate to='/signup' replace/>
+		return <Navigate to="/signup" replace />;
 	}
 	if (!user.isVerified) {
-	    return  <Navigate to='/verify-account' replace/>
+		return <Navigate to="/verify-account" replace />;
 	}
 
 	return children;
@@ -38,10 +38,10 @@ const ProtectedRoutes = ({ children }) => {
 
 // Redirect authenticated user
 const RedirectAuthenticatedUser = ({ children }) => {
-	const  { isAuthenticated, user } = useAuthStore();
+	const { isAuthenticated, user } = useAuthStore();
 
-	if (isAuthenticated  && user.isVerified) {
-	    return <Navigate to='/' replace/>
+	if (isAuthenticated && user.isVerified) {
+		return <Navigate to="/" replace />;
 	}
 
 	return children;
@@ -52,7 +52,7 @@ const RedirectRegularUser = ({ children }) => {
 	const { isAdmin } = useAdminStore();
 
 	if (!isAdmin) {
-	    return <Navigate to='/' replace />
+		return <Navigate to='/' replace />;
 	}
 
 	return children;
@@ -64,10 +64,13 @@ const App = () => {
 
 	useEffect(() => {
 		checkAuth();
-		checkAdmin();
-	}, [checkAuth, checkAdmin]);
+	}, [checkAuth]);
 
-	if (isCheckingAuth && isCheckingAdmin) return <LoadingSpinner />;
+	useEffect(() => {
+		checkAdmin();
+	}, [checkAdmin]);
+
+	if (isCheckingAuth | isCheckingAdmin) return <LoadingSpinner />;
 	return (
 		<div className=" w-screen h-100vh flex flex-col items-center justify-center bg-gradient-to-bl from-bg-[#ffffffff]  via-[#ff5602cf] to-[#ff5602cf] font-[Supreme-Regular] bg-no-repeat  bg-center  ">
 			<Routes>
@@ -166,7 +169,7 @@ const App = () => {
 				/>
 
 				{/* Redirect for invalid route/s */}
-				<Route path='*' element={<Navigate to='/' replace />} />
+				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 			<Toaster position="center-top" />
 		</div>
