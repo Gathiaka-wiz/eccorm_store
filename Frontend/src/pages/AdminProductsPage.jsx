@@ -6,11 +6,10 @@ import {
 	HomeIcon,
 	Trash2,
 	ImageIcon,
-	MessageSquareWarning,
+	Loader,
 } from 'lucide-react';
 // eslint-disable-next-line no-unused-vars
 import { motion, useAnimationControls } from 'framer-motion';
-
 import { useAdminStore } from '../store/adminStore';
 import { userStore } from '../store/userStore';
 
@@ -22,17 +21,26 @@ const AdminProductsPage = () => {
 	const inputRef = useRef(null);
 	const isEdit = useRef(false);
 	// Product valuables
-	const [price, setPrice] = useState(null);
+	const [price, setPrice] = useState("");
 	const [image, setImage] = useState(null);
-	const [description, setDescription] = useState(null);
-	const [product_name, setProduct_name] = useState(null);
-	const [product_id, setProduct_id] = useState(null);
-	const [available_stock, setAvailable_stock] = useState(null);
-	const { createProduct, editProduct, deleteProduct, message } =
+	const [description, setDescription] = useState("");
+	const [product_name, setProduct_name] = useState("");
+	const [product_id, setProduct_id] = useState("");
+	const [available_stock, setAvailable_stock] = useState("");
+
+	const { createProduct, editProduct, deleteProduct, message, isFetching } =
 		useAdminStore();
 	const { getProducts, products } = userStore();
 
-	const handleDisplay = async () => {
+	const fetchProducts = async () => {
+		try {
+			await getProducts();
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
+	const toggleDisplay = () => {
 		if (!isVisible.current) {
 			controls.set('display');
 			mainControls.set('blur');
@@ -45,9 +53,11 @@ const AdminProductsPage = () => {
 	};
 
 	const handleEditClick = (id) => {
+		isVisible.current = false;
+
 		setProduct_id(id);
 
-		const idx = products.findIndexOf((prd) => prd._id === id);
+		const idx = products.findIndex((prd) => prd._id === id);
 
 		if (idx < 0) return toast.error('Product not found');
 
@@ -60,12 +70,23 @@ const AdminProductsPage = () => {
 		setAvailable_stock(itm.available_stock);
 
 		isEdit.current = true;
+		toggleDisplay()
+		console.log(id, "Clicked", "current", isVisible.current)
 	};
+
+	const resetValues = () => {
+		setPrice("");
+		setImage(null);
+		setDescription("");
+		setProduct_name("");
+		setAvailable_stock("");
+	}
 
 	const handleImage = (e) => {
 		const file = e.target.files[0];
 		if (file && file.type.startsWith('image/')) {
-			setImage(URL.createObjectURL(file));
+			// setImage(URL.createObjectURL(file));
+			setImage(file);
 		} else {
 			setImage(null);
 		}
@@ -75,13 +96,31 @@ const AdminProductsPage = () => {
 		inputRef.current.click();
 	};
 
-	const handleSubmit = async () => {
-		event.preventDefault();
+	const handleSubmit = async (e) => {
+		e.preventDefault();
 		if (image === null) {
 			toast.error('Please provide an image file');
 			return;
 		}
-		if (!isEdit) {
+		if (isEdit.current) {
+			try {
+				await editProduct(
+					product_id,
+					product_name,
+					price,
+					available_stock,
+					description,
+					image
+				);
+				toast.success(message || "Product edit success");
+				fetchProducts();
+				resetValues();
+				toggleDisplay();
+			} catch (error) {
+				console.error(error);
+				toast.error(error.message || "Product edit error");
+			}
+		} else {
 			try {
 				await createProduct(
 					product_name,
@@ -90,28 +129,14 @@ const AdminProductsPage = () => {
 					description,
 					image
 				);
-				toast.success(message);
-				handleDisplay();
-			} catch (error) {
-				console.error(error);
-				message !== null ? toast.success(message) : '';
-			}
-		} else {
-			try {
-				editProduct(
-					product_id,
-					product_name,
-					price,
-					available_stock,
-					description,
-					image
-				);
 				isEdit.current = false;
-				message !== null ? toast.success(message) : '';
-				handleDisplay();
+				toast.success(message || "Product create success");
+				fetchProducts();
+				resetValues();
+				toggleDisplay();
 			} catch (error) {
 				console.log(error);
-				message !== null ? toast.success(message) : '';
+				toast.error(error.message || "Product create error");
 			}
 		}
 	};
@@ -119,21 +144,26 @@ const AdminProductsPage = () => {
 	const handleDelete = (product_id) => {
 		try {
 			deleteProduct(product_id);
-			message !== null ? toast.success(message) : '';
+			toast.success(message || 'Product delete success');
+			fetchProducts();
 		} catch (error) {
 			console.log(error);
-			message !== null ? toast.success(message) : '';
+			toast.error(error || "Product delete error");
 		}
 	};
 
 	useEffect(() => {
 		try {
 			getProducts();
+			toast.success("Products fetch success");
+			console.log(products)
 		} catch (error) {
 			console.log(error);
+			toast.error("Products fetch error : please refresh")
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [products]);
+	}, []);
+
 
 	return (
 		<div className="w-[100vw] min-h-[100vh]  h-max flex flex-col items-center bg-gradient-to-bl from-bg-[#ffffffff] from-0%  via-[#ff9d6c] via-40%  to-[##ff874b] to-100% relative text-[#333333]   ">
@@ -155,7 +185,10 @@ const AdminProductsPage = () => {
 					</h1>
 				</ul>
 				<motion.button
-					onClick={handleDisplay}
+					onClick={() => {
+						toggleDisplay();
+						resetValues()
+					}}
 					initial={{ background: '#ff5602' }}
 					whileHover={{ scale: 1.05, background: '#ff5602b4' }}
 					whileTap={{ scale: 1 }}
@@ -182,137 +215,97 @@ const AdminProductsPage = () => {
 				animate={mainControls}
 				className="grid justify-center flex-col gap-y-5  p-4 w-[85vw]  bg-[#00000026] mt-20 rounded"
 			>
-				{products
-					? products.map((product) => {
-							<motion.div
-								initial="initial"
-								whileHover="hover"
-								className="max-w-[70vw] w-[65vw] bg-[#ffffff6b] rounded flex  relative overflow-clip"
+				{products !== null
+					? products.map((product, index) => {
+						return (<motion.div
+							key={index}
+							initial="initial"
+							whileHover="hover"
+							className="max-w-[70vw] w-[65vw] bg-[#ffffff6b] rounded flex  relative overflow-clip "
+						>
+							<img
+								className="h-50 w-[25%] "
+								src={product.image.url}
+								alt={product.product_name}
+							/>
+							<section className="grid justify-center algn-middle w-[23%] py-5 text-[1.2rem] font-[Supreme-Medium] ">
+								<p>{product.product_name}</p>
+								<p>Ksh : {product.price}</p>
+								<p>
+									Stock{' '}
+									{product.available_stock}
+								</p>
+							</section>
+							<section className="w-[52%] h-60 overflow-scroll p-1.5  text-[1.1rem] ">
+								<p>{product.description}</p>
+							</section>
+							<motion.aside
+								onClick={() => {
+									handleEditClick(product._id);
+								}}
+								variants={{
+									initial: {
+										opacity: 0,
+										scale: 0,
+										x: -50,
+									},
+									hover: {
+										opacity: 1,
+										scale: 1,
+										x: 0,
+									},
+								}}
+								whileTap={{ scale: 1.2 }}
+								transition={{
+									duration: 0.5,
+									ease: 'easeInOut',
+								}}
+								className="absolute z-5 left-0 top-0 size-8 flex justify-center align-middle  p-1 bg-[#ff681c] cursor-pointer rounded text-white/80 "
 							>
-								<img
-									className="h-50 w-[25%] "
-									src="/headphones_a_1.webp"
+								<EditIcon
+									onClick={() => {
+										handleEditClick(
+											product._id
+										);
+									}}
 								/>
-								<section className="grid justify-center algn-middle w-[23%] py-5 text-[1.2rem] font-[Supreme-Medium] ">
-									<p>{product.name}</p>
-									<p>Ksh : {product.price}</p>
-									<p>
-										Stock{' '}
-										{product.available_stock}
-									</p>
-								</section>
-								<section className="w-[52%] h-60 overflow-scroll p-1.5  text-[1.1rem] ">
-									<p>{product.description}</p>
-								</section>
-								<motion.aside
+							</motion.aside>
+
+							<motion.aside
+								onClick={() => {
+									handleDelete(product._id);
+								}}
+								variants={{
+									initial: {
+										opacity: 0,
+										scale: 0,
+										x: 50,
+									},
+									hover: {
+										opacity: 1,
+										scale: 1,
+										x: 0,
+									},
+								}}
+								whileTap={{ scale: 1.2 }}
+								transition={{
+									duration: 0.5,
+									ease: 'easeInOut',
+								}}
+								className="absolute z-5 right-0 top-0 size-8 flex justify-center align-middle  p-1 bg-red-500 cursor-pointer rounded text-white/80 "
+							>
+								<Trash2
 									onClick={() => {
-										handleEditClick(product._id);
+										handleDelete(
+											product._id
+										);
 									}}
-									variants={{
-										initial: {
-											opacity: 0,
-											scale: 0,
-											x: -50,
-										},
-										hover: {
-											opacity: 1,
-											scale: 1,
-											x: 0,
-										},
-									}}
-									whileTap={{ scale: 1.2 }}
-									transition={{
-										duration: 0.5,
-										ease: 'easeInOut',
-									}}
-									className="absolute z-5 left-0 top-0 size-8 flex justify-center align-middle  p-1 bg-[#ff681c] cursor-pointer rounded text-white/80 "
-								>
-									<EditIcon
-										onClick={() => {
-											handleEditClick(
-												product._id
-											);
-										}}
-									/>
-								</motion.aside>
-								<motion.aside
-									onClick={() => {
-										handleDelete(product._id);
-									}}
-									variants={{
-										initial: {
-											opacity: 0,
-											scale: 0,
-											x: 50,
-										},
-										hover: {
-											opacity: 1,
-											scale: 1,
-											x: 0,
-										},
-									}}
-									whileTap={{ scale: 1.2 }}
-									transition={{
-										duration: 0.5,
-										ease: 'easeInOut',
-									}}
-									className="absolute z-5 right-0 top-0 size-8 flex justify-center align-middle  p-1 bg-red-500 cursor-pointer rounded text-white/80 "
-								>
-									<Trash2
-										onClick={() => {
-											handleDelete(
-												product._id
-											);
-										}}
-									/>
-								</motion.aside>
-							</motion.div>;
-					  })
+								/>
+							</motion.aside>
+						</motion.div>)
+					})
 					: ''}
-				{/* <motion.div
-					initial="initial"
-					whileHover="hover"
-					className="max-w-[70vw] w-[65vw] bg-[#ffffff6b] rounded flex  relative overflow-clip"
-				>
-					<img
-						className="h-50 w-[25%] "
-						src="/headphones_a_1.webp"
-					/>
-					<section className="grid justify-center algn-middle w-[23%] py-5 text-[1.2rem] font-[Supreme-Medium] ">
-						<p>P15 Pro Max</p>
-						<p>Ksh : 300</p>
-						<p>Stock 500</p>
-					</section>
-					<section className="w-[52%] h-60 overflow-scroll p-1.5  text-[1.1rem] ">
-						<p>
-							
-						</p>
-					</section>
-					<motion.aside
-						onClick={handleEditClick}
-						variants={{
-							initial: { opacity: 0, scale: 0, x: -50 },
-							hover: { opacity: 1, scale: 1, x: 0 },
-						}}
-						whileTap={{ scale: 1.2 }}
-						transition={{ duration: 0.5, ease: 'easeInOut' }}
-						className="absolute z-5 left-0 top-0 size-8 flex justify-center align-middle  p-1 bg-[#ff681c] cursor-pointer rounded text-white/80 "
-					>
-						<EditIcon onClick={handleEditClick} />
-					</motion.aside>
-					<motion.aside
-						onClick={handleDelete}
-						variants={{
-							initial: { opacity: 0, scale: 0, x: 50 },
-							hover: { opacity: 1, scale: 1, x: 0 },
-						}}
-						whileTap={{ scale: 1.2 }}
-						transition={{ duration: 0.5, ease: 'easeInOut' }}
-						className="absolute z-5 right-0 top-0 size-8 flex justify-center align-middle  p-1 bg-red-500 cursor-pointer rounded text-white/80 "
-					>
-						<Trash2 onClick={handleDelete} />
-					</motion.aside>
-				</motion.div> */}
+
 			</motion.main>
 
 			<motion.form
@@ -351,7 +344,7 @@ const AdminProductsPage = () => {
 							/>
 						) : (
 							<img
-								src={image}
+								src={typeof image === 'string' ? image : URL.createObjectURL(image)}
 								onClick={handleUpload}
 								className="w-[100%] h-[100%] "
 							/>
@@ -370,8 +363,8 @@ const AdminProductsPage = () => {
 							type="text"
 							placeholder="Product Name"
 							value={product_name}
-							onChange={() => {
-								setProduct_name(event.target.value);
+							onChange={(e) => {
+								setProduct_name(e.target.value);
 							}}
 							className=" mx-auto bg-[#ffffffc8] w-100  h-15 placeholder:text-center focus:outline-0 focus:border-2 focus:border-stone-500 text-[1.1rem] p-2 rounded-sm "
 						/>
@@ -380,8 +373,8 @@ const AdminProductsPage = () => {
 								type="number"
 								placeholder="price"
 								value={price}
-								onChange={() => {
-									setPrice(event.target.value);
+								onChange={(e) => {
+									setPrice(e.target.value);
 								}}
 								className="bg-[#ffffffc8] placeholder:text-center w-65 h-14 text-center focus:outline-0 focus:border-2 focus:border-stone-500 text-[1.1rem] rounded "
 								min={1}
@@ -391,10 +384,8 @@ const AdminProductsPage = () => {
 								type="number"
 								placeholder="stock"
 								value={available_stock}
-								onChange={() => {
-									setAvailable_stock(
-										event.target.value
-									);
+								onChange={(e) => {
+									setAvailable_stock(e.target.value);
 								}}
 								className="bg-[#ffffffc8] placeholder:text-center w-65 h-14 text-center focus:outline-0 focus:border-2 focus:border-stone-500 text-[1.1rem] rounded "
 								min={1}
@@ -406,8 +397,8 @@ const AdminProductsPage = () => {
 				<section className="h-50 w-[99%] ">
 					<textarea
 						value={description}
-						onChange={() => {
-							setDescription(event.target.value);
+						onChange={(e) => {
+							setDescription(e.target.value);
 						}}
 						className=" p-2 text-gray-600 placeholder:text-center placeholder:text-[1.1rem] w-[100%] h-[100%] bg-[#ffffffc8] focus:outline-0 focus:border-2 focus:border-stone-500 text-[0.9rem] rounded "
 						name="product-description"
@@ -417,17 +408,19 @@ const AdminProductsPage = () => {
 				</section>
 				<section className="flex justify-around text-[1.1rem]">
 					<button
-						onClick={handleDisplay}
+						onClick={toggleDisplay}
 						type="reset"
 						className="bg-[#000000d9] w-28 text-white px-2.5 py-1 cent  rounded "
+						disabled={isFetching}
 					>
 						Cancel
 					</button>
 					<button
 						type="submit"
-						className="bg-[#ff5602] w-28 text-white px-2.5 py-1 cent rounded "
+						className="bg-[#ff5602] w-28 text-white px-2.5 py-1 cent rounded  "
+						disabled={isFetching}
 					>
-						Save
+						{isFetching ? <Loader className=' mx-auto animate-spin cursor-none ' /> : 'save'}
 					</button>
 				</section>
 			</motion.form>
