@@ -11,7 +11,7 @@ import { userStore } from '../store/userStore';
 import { useAuthStore } from '../store/authStore';
 
 const HomePage = () => {
-	const { getProducts, products, getUserCart } = userStore();
+	const { getProducts,  getUserCart } = userStore();
 	const { isAuthenticated } = useAuthStore();
 
 	useEffect(() => {
