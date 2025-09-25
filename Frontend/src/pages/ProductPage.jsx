@@ -122,7 +122,7 @@ const ProductPage = () => {
 			{product !== null ? (
 				<main className="w-screen h-screen bg-white pt-30 sm:pt-20 ">
 					<div className="flex flex-col gap-y-1.5 justify-center align-middle w-screen h-screen  sm:justify-normal min-pc:grid min-pc:grid-cols-2 min-pc:grid-rows-2 min-pc:h-[80vh] min-pc:min-h-max ">
-						<section className="flex flex-col gap-y-2 mr-auto ml-auto w-4/5 bg-gray-400 h-68 sm:h-90 sm:w-120  min-pc:w-[80%] ">
+						<section className=" mt-[60vh] flex flex-col gap-y-2 mr-auto ml-auto w-4/5 bg-gray-300 h-68 sm:h-90 sm:w-120  min-pc:w-[80%] ">
 							<img
 								src={product.image.url}
 								alt={product.name}
