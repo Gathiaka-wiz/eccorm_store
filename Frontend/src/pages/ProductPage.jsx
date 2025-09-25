@@ -122,14 +122,14 @@ const ProductPage = () => {
 			{product !== null ? (
 				<main className="w-screen h-screen bg-white pt-30 sm:pt-20 ">
 					<div className="flex flex-col gap-y-1.5 justify-center align-middle w-screen h-screen  sm:justify-normal min-pc:grid min-pc:grid-cols-2 min-pc:grid-rows-2 min-pc:h-[80vh] min-pc:min-h-max ">
-						<section className=" mt-[60vh] flex flex-col gap-y-2 mr-auto ml-auto w-4/5 bg-gray-300 h-68 sm:h-90 sm:w-120  min-pc:w-[80%] ">
+						<section className="flex flex-col gap-y-2 mr-auto ml-auto w-4/5 bg-gray-300 h-68 sm:h-90 sm:w-120  min-pc:w-[80%] ">
 							<img
 								src={product.image.url}
 								alt={product.name}
 								className="w-full h-full min-pc:object-fit "
 							/>
 						</section>
-						<section className="flex flex-col text-black gap-y-1 text-left w-screen px-4 text-[1.2rem] sm:text-[1.5rem] sm:px-10  min-pc:w-[100%] ">
+						<section className="flex flex-col text-black gap-y-1 text-left w-screen px-4 text-[1.2rem] sm:text-[1.5rem] sm:px-10  min-pc:w-[100%]  min-pc:h-[88vh]  ">
 							<h2 className="text-[1.3rem] sm:text-[1.6rem] ">
 								{product.product_name}
 							</h2>
@@ -141,7 +141,7 @@ const ProductPage = () => {
 								{product.available_stock}
 							</h3>
 							<hr className="text-gray-400 min-pc:hidden " />
-							<p className="mb-15.5 grid  ">
+							<p className="mb-15.5 grid h-[35vh] overflow-y-scroll min-pc:h-[90vh]  ">
 								<span className="text-center bg-orange-400 text-stone-900  ">
 									Product Description :
 								</span>
