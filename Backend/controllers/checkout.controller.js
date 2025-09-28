@@ -43,12 +43,6 @@ export const createCheckoutSession = async (req, res, next) => {
             throw error;
         }
 
-        if (!cart) {
-            const error = new Error('Cart not found ');
-            error.statusCode = 404;
-            throw error;
-        }   
-
         const amount = cart.subtotal ; // Convert to cents for payment processing
         const stripeAmount = Math.round(amount * 100); // Convert to cents
 
@@ -384,8 +378,9 @@ export const stripeWebhookHandler = async (req, res, next) => {
             STRIPE_WEBHOOK_SECRET
         );
     } catch (error) {
-        return res.status(400).send(`Webhook Error: ${error.message}`);
-        next(error)
+        const err = new Error(`Webhook Error: ${error.message}`);
+        err.statusCode = 400;
+        throw error;
     }
 
     const stripeSession = event.data.object;
@@ -454,7 +449,7 @@ export const stripeWebhookHandler = async (req, res, next) => {
             console.warn(`Unhandled event type ${event.type}`);
     }
 
-    res.json({ received: true });
+    res.status(200).json({ received: true });
 }
 
 
@@ -475,7 +470,6 @@ export const checkCartStatus = async (res, req, next ) => {
             success:true,
             message:'Cart Status fetch success',
             status:cart.status
-            
         });
         
 
