@@ -1,51 +1,52 @@
 {
-  "name": "eccorm_store",
-  "version": "1.0.0",
-  "description": "MVP E-ccorm Store",
-  "main": "/Backend/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "clear && nodemon  ./Backend/index.js ",
-    "dev":"cd  ./Frontend && npm run dev"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Gathiaka-wiz/eccorm_store.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Gathiaka-wiz/eccorm_store/issues"
-  },
-  "homepage": "https://github.com/Gathiaka-wiz/eccorm_store#readme",
-  "dependencies": {
-    "@arcjet/inspect": "^1.0.0-beta.8",
-    "@arcjet/node": "^1.0.0-beta.8",
-    "axios": "^1.10.0",
-    "bcryptjs": "^3.0.2",
-    "cloudinary": "^1.41.3",
-    "colors": "^1.4.0",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^17.1.0",
-    "express": "^5.1.0",
-    "express-fileupload": "^1.5.2",
-    "express-session": "^1.18.1",
-    "express-validator": "^7.2.1",
-    "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.17.0",
-    "mongoose": "^8.16.2",
-    "multer": "^2.0.1",
-    "multer-storage-cloudinary": "^4.0.0",
-    "node-fetch": "^3.3.2",
-    "nodemailer": "^7.0.5",
-    "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0",
-    "stripe": "^18.3.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10"
-  },
-  "editor.stickyScroll.enabled": false
+	"name": "eccorm_store",
+	"version": "1.0.0",
+	"description": "MVP E-ccorm Store",
+	"main": "/Backend/index.js",
+	"type": "module",
+	"scripts": {
+		"dev": "clear && NODE_ENV=development nodemon Backend/index.js ",
+		"start": "NODE_ENV=production node Backend/index.js",
+		"build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Gathiaka-wiz/eccorm_store.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Gathiaka-wiz/eccorm_store/issues"
+	},
+	"homepage": "https://github.com/Gathiaka-wiz/eccorm_store#readme",
+	"dependencies": {
+		"@arcjet/inspect": "^1.0.0-beta.8",
+		"@arcjet/node": "^1.0.0-beta.8",
+		"axios": "^1.10.0",
+		"bcryptjs": "^3.0.2",
+		"cloudinary": "^1.41.3",
+		"colors": "^1.4.0",
+		"cookie-parser": "^1.4.7",
+		"cors": "^2.8.5",
+		"dotenv": "^17.1.0",
+		"express": "^5.1.0",
+		"express-fileupload": "^1.5.2",
+		"express-session": "^1.18.1",
+		"express-validator": "^7.2.1",
+		"jsonwebtoken": "^9.0.2",
+		"mongodb": "^6.17.0",
+		"mongoose": "^8.16.2",
+		"multer": "^2.0.1",
+		"multer-storage-cloudinary": "^4.0.0",
+		"node-fetch": "^3.3.2",
+		"nodemailer": "^7.0.5",
+		"passport": "^0.7.0",
+		"passport-google-oauth20": "^2.0.0",
+		"passport-local": "^1.0.0",
+		"stripe": "^18.3.0"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.10"
+	},
+	"editor.stickyScroll.enabled": false
 }
