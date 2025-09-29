@@ -5,9 +5,10 @@
 	"main": "/Backend/index.js",
 	"type": "module",
 	"scripts": {
-		"dev": "clear && NODE_ENV=development nodemon Backend/index.js ",
+		"dev": "clear &&  nodemon Backend/index.js ",
 		"start": " node Backend/index.js",
-		"build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend"
+		"build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+		"test": "nodemon Backend/index.js "
 	},
 	"repository": {
 		"type": "git",
