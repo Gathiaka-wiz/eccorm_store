@@ -29,26 +29,42 @@ const allowedOrigins = [
 	'http://localhost:5173',
 ];
 
-app.use(
-	cors({
-		origin: (origin, callback) => {
-			if (!origin) return callback(null, true);
-			if (allowedOrigins.includes(origin)) {
-				return callback(null, true);
-			}
-			return callback(new Error('Not allowed by CORS'));
-		},
-		// origin: 'http://localhost:5173',
-		// origin:'https://cmfjqv08-5173.uks1.devtunnels.ms',// your frontend URL
-		credentials: true,
-	})
-);
+// app.use(
+// 	cors({
+// 		origin: (origin, callback) => {
+// 			if (!origin) return callback(null, true);
+// 			if (allowedOrigins.includes(origin)) {
+// 				return callback(null, true);
+// 			}
+// 			return callback(new Error('Not allowed by CORS'));
+// 		},
+// 		// origin: 'http://localhost:5173',
+// 		// origin:'https://cmfjqv08-5173.uks1.devtunnels.ms',// your frontend URL
+// 		credentials: true,
+// 	})
+// );
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
 // app.use(arcjetMiddleware);
 app.use(express.urlencoded({ extended: true }));
+
+if (NODE_ENV === 'production') {
+	app.use(express.static(path.join(__dirname, '/Frontend/dist')));
+
+	app.get('/files', (req, res) => {
+		res.sendFile(
+			path.resolve(__dirname, 'frontend', 'dist', 'index.html')
+		);
+	});
+	// app.get('/files{/*path}', (req, res) => {
+	// 	res.sendFile(
+	// 		path.resolve(__dirname, 'Frontend', 'dist', 'index.html')
+	// 	);
+	// });
+
+}
 
 // Auth Routes
 app.use('/api/v1/auth', AuthRoutes);
@@ -65,15 +81,8 @@ app.use('/api/v3/admin', AdminRoutes);
 app.use(errorMiddleware);
 app.use(routeLogger);
 
-if (NODE_ENV === 'production') {
-	app.use(express.static(path.join(__dirname, '/Frontend/dist')));
-
-	app.get('*', (req, res) => {
-		res.sendFile(path.resolve__dirname, 'Frontend', 'dist', 'index.html');
-	});
-}
-
 app.listen(PORT, async () => {
 	await connectDb();
 	console.log(`Server is running on Port ${PORT} `.yellow.bold);
+	console.log('Home Page'.green.bold);
 });
