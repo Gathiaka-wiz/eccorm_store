@@ -7,7 +7,7 @@ import { apiRequest } from '../utils/apiRequest';
 const API_URL =
 	import.meta.env.MODE === 'development'
 		? `http://localhost:8000/api/v2`
-		: 'api/v2';
+		: '/api/v2';
 
 axios.defaults.withCredentials = true;
 
@@ -18,10 +18,10 @@ export const userStore = create((set) => ({
 	message: null,
 	product: null,
 	products: null,
-	paidOrders:null,
+	paidOrders: null,
 	cartTotal: null,
 	isFetching: false,
-	completedOrders:null,
+	completedOrders: null,
 
 	getProducts: async () => {
 		set({ isFetching: true, error: null, message: null, products: null });
@@ -119,8 +119,8 @@ export const userStore = create((set) => ({
 
 			set({
 				error: null,
-				paidOrders:data.paid,
-				completedOrders:data.complete,
+				paidOrders: data.paid,
+				completedOrders: data.complete,
 				message: data.message || 'User orders fetch success',
 				isFetching: false,
 			});

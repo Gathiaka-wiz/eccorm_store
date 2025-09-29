@@ -29,20 +29,22 @@ const allowedOrigins = [
 	'http://localhost:5173',
 ];
 
-// app.use(
-// 	cors({
-// 		origin: (origin, callback) => {
-// 			if (!origin) return callback(null, true);
-// 			if (allowedOrigins.includes(origin)) {
-// 				return callback(null, true);
-// 			}
-// 			return callback(new Error('Not allowed by CORS'));
-// 		},
-// 		// origin: 'http://localhost:5173',
-// 		// origin:'https://cmfjqv08-5173.uks1.devtunnels.ms',// your frontend URL
-// 		credentials: true,
-// 	})
-// );
+NODE_ENV === 'development'
+	? app.use(
+			cors({
+				origin: (origin, callback) => {
+					if (!origin) return callback(null, true);
+					if (allowedOrigins.includes(origin)) {
+						return callback(null, true);
+					}
+					return callback(new Error('Not allowed by CORS'));
+				},
+				// origin: 'http://localhost:5173',
+				// origin:'https://cmfjqv08-5173.uks1.devtunnels.ms',// your frontend URL
+				credentials: true,
+			})
+	  )
+	: null;
 
 // Middleware
 app.use(express.json());
@@ -63,7 +65,6 @@ if (NODE_ENV === 'production') {
 	// 		path.resolve(__dirname, 'Frontend', 'dist', 'index.html')
 	// 	);
 	// });
-
 }
 
 // Auth Routes
@@ -84,5 +85,4 @@ app.use(routeLogger);
 app.listen(PORT, async () => {
 	await connectDb();
 	console.log(`Server is running on Port ${PORT} `.yellow.bold);
-	console.log('Home Page'.green.bold);
 });
