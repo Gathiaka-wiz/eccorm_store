@@ -55,16 +55,16 @@ app.use(express.urlencoded({ extended: true }));
 if (NODE_ENV === 'production') {
 	app.use(express.static(path.join(__dirname, '/Frontend/dist')));
 
-	app.get('/files', (req, res) => {
-		res.sendFile(
-			path.resolve(__dirname, 'frontend', 'dist', 'index.html')
-		);
-	});
-	// app.get('/files{/*path}', (req, res) => {
+	// app.get('/files', (req, res) => {
 	// 	res.sendFile(
-	// 		path.resolve(__dirname, 'Frontend', 'dist', 'index.html')
+	// 		path.resolve(__dirname, 'frontend', 'dist', 'index.html')
 	// 	);
 	// });
+	app.get('/files{/*path}', (req, res) => {
+		res.sendFile(
+			path.resolve(__dirname, 'Frontend', 'dist', 'index.html')
+		);
+	});
 }
 
 // Auth Routes
