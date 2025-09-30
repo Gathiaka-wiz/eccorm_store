@@ -7,7 +7,7 @@
 	"scripts": {
 		"dev": "clear &&  nodemon Backend/index.js ",
 		"start": " node Backend/index.js",
-		"build": "npm install && npm install --prefix Frontend && npm run build --prefix Frontend",
+		"build": " npm run build --prefix Frontend",
 		"test": "nodemon Backend/index.js "
 	},
 	"repository": {
