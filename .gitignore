@@ -14,7 +14,7 @@ dist-ssr
 
 # Stock images and json file
 *.webp
-*.json
+# *.json
 
 # Editor directories and files
 .vscode/*
